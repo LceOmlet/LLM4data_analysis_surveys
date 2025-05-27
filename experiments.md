@@ -23,6 +23,14 @@
 
 - Table-GPT: Table Fine-tuned GPT for Diverse Table Tasks, SIGMOD, 24
 
+### RAG, retrieval, graph building
+
+- In-depth Analysis of Graph-based RAG in a Unified Framework, VLDB 2025
+
+### Text2SQL
+
+- CLEAR: A Parser-Independent Disambiguation Framework for NL2SQL
+
 
 #### others (ignore)
 
