@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[style=numeric, backend=bibtex]{biblatex}
+\usepackage{booktabs}  % 添加booktabs包
+\usepackage{array}     % 添加array包以支持自定义列类型
+\usepackage{graphicx}  % 添加graphicx包以支持resizebox
+\addbibresource{surveys.bib} % 确保文件名与实际文件一致
+
+\begin{document}
+
+
+\begin{table*}
+    \centering
+    \caption{\textbf{Surveys related to the topic with \checkmark on explicitly discussed subtopics.} The 1-st topic surveys what, where and how to evaluate the ability of PFMs. While the 2-nd topic introduces self-evaluation and self-correction of PFMs. Although most of the surveys provide discussions about evaluation of the domain specific tasks, only topics related to self-correction introduces how to use PFMs to assess results of downstream tasks in ad-hoc style actively. Only the 11-th topic, LLM for table processing, covers the most topics. However it only focus on the tabular data.}
+    \label{tab:surveys}
+    \resizebox{1\textwidth}{!}{
+    \begin{tabular}{l !{\vline} cccc!{\vline} cccc !{\vline} p{5cm}}
+        \toprule
+        \textbf{} & \textbf{DP.} & \textbf{Imp.} & \textbf{Exp.} & \textbf{Ass.} & \textbf{DQ.} & \textbf{Rea.} & \textbf{Acc.} & \textbf{Auto.} & \textbf{Topic} \\
+        \midrule
+        1. \cite{chang2024survey, KenthapadiST24, SinghN25} & & & & \checkmark & & & & & Evaluation of LLMs \\
+        \cmidrule{1-10}
+        2. \cite{kamoi2024can, PanSXNWW24} & & & & \checkmark & & & & \checkmark & Self-Correction of LLMs \\
+        \cmidrule{1-10}
+        3. \cite{LongWXZDCW24, XuCPZXZWZWC24} & \checkmark & & & \checkmark & \checkmark & & \checkmark & & Synthetic Data\\
+        \cmidrule{1-10}
+        4. \cite{XuQGW0ZX24} & & & & \checkmark & \checkmark & & & & Knowledge Conflicts for LLMs \\
+        \cmidrule{1-10}
+        5. \cite{HuangYMZFWCPFQL25, ChakrabortyOD25} & & & & \checkmark & \checkmark & & & & Hallucination in LLMs \\
+        \cmidrule{1-10}
+        6. \cite{XiaWLLYCML25, 0009C23} & & \checkmark & & \checkmark & & \checkmark & & \checkmark & Reasoning of PFMs \\
+        \cmidrule{1-10}
+        7. \cite{YangJTHFJZYH24} & & \checkmark & & \checkmark & & \checkmark & \checkmark & \checkmark & LLMs in Practice \\
+        \cmidrule{1-10}
+        8. \cite{RaihanNZ24} & & \checkmark & & \checkmark & & & & \checkmark & Code LLMs Taxonomy \\
+        \cmidrule{1-10}
+        9. \cite{KazmierczakBFF25, ZhaoCYLDCWYD24} & & & & \checkmark & & & \checkmark & & Explainability\\
+        \cmidrule{1-10}
+        10. \cite{FanDNWLYCL24} & & & \checkmark & & & \checkmark & \checkmark & & Retrieval-Augmented LLMs \\
+        \cmidrule{1-10}
+        11. \cite{LuZFFCD25, ZhangWDZC25, FangXTH0QSF24} & \checkmark & \checkmark & & \checkmark & \checkmark & \checkmark & \checkmark & & LLM for Table Processing \\
+        \cmidrule{1-10}
+        12. \cite{QinHLCDCZZHXHFSWQTZLSXZ25, QuDWCWYXW25} & & \checkmark & & \checkmark & & \checkmark & \checkmark & \checkmark & Tool Learning\\
+        \cmidrule{1-10}
+        13. \cite{XiCGHDHZWJZZFWXZWJZLYDW25, WangMFZYZCTCLZWW24} & & \checkmark & \checkmark & \checkmark & & \checkmark & \checkmark & \checkmark & LLM-based Agents \\
+        \cmidrule{1-10}
+        14. \cite{NarayanCOR22} & \checkmark & & & & \checkmark & & & & PFM for Data Wrangling \\
+        \cmidrule{1-10}
+        15. \cite{YangSBK25} & & & & \checkmark &  & \checkmark & \checkmark &  & Integrating LLMs with KBs \\
+        \cmidrule{1-10}
+        16. \cite{RenTYCH24} & & \checkmark & & & & \checkmark & & & LLMs for Graphs \\
+        \cmidrule{1-10}
+        17. \cite{IbrahimAIK24} & \checkmark & & & \checkmark & \checkmark & \checkmark & \checkmark & & Augmenting KGs\\
+        \cmidrule{1-10}
+        Ours & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & LLMs for DA \\
+        \bottomrule
+    \end{tabular}}
+\end{table*}
+
+
+
+
+\printbibliography % 关键：输出参考文献
+
+\end{document}

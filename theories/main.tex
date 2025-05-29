@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[style=numeric, backend=bibtex]{biblatex}
+\usepackage{booktabs}  % 添加booktabs包
+\usepackage{array}     % 添加array包以支持自定义列类型
+
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\addbibresource{theory.bib} % 确保文件名与实际文件一致
+
+\begin{document}
+
+
+\input{definition.tex}
+
+\printbibliography % 关键：输出参考文献
+
+\end{document}

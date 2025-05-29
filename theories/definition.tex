@@ -1,0 +1,56 @@
+
+
+\begin{definition}
+    A foundation model is trained beyond task-relevant data, and these data are the maximum that research organizations can collect.
+    \end{definition}
+    
+    \begin{definition}
+    It is defined as a general model based on a large-scale predictive structure that can directly handle diverse tasks through an in-context learning mechanism without retraining for each task.
+    \end{definition}
+    
+    \begin{definition}~\cite{Yuan23a} (The original version of this definition uses category theory, and this version is the natural language version), \textbf{Ideal Foundation Model (IFM)}. For a specific task-defined data category, if a foundation model can map all data to a unified feature space, and there exists a matching rule independent of the training data that makes the model effective for the task, such that any relationship in the feature space yields results completely equivalent to the correct inherent relationship between samples in the original task, then the model is called an Ideal Foundation Model.
+    
+    \textbf{Example:} In an ideal face recognition model, if the model extracts the vectors of two faces and computes their similarity through a fixed formula, and this similarity is completely equivalent to the real judgment of whether these two faces belong to the same person, then the model meets the requirements of an Ideal Foundation Model.
+    \end{definition}
+    
+    \begin{definition}~\cite{JeonLLR24}
+    \textbf{Bayes-optimal Foundation Model}. Assume the context conforms \( P(H_t|\theta) \) where \(\theta = \{\psi, \theta_{1:M}\}\), given multiple documents \( D_{1:M} = \{ D_m \mid D_m \sim P(D_m|\theta_m) \} \) and their contexts \( H_t^{(m)} = X_{1:t}^{(m)} \) for \( m \in [M] \), the model's prediction \( \hat P(X_{t+1}^{(m)}) = P(X_{t+1}^{(m)} \mid H_t^{(m)}, D_{1:m-1}, \pi) \) has Bayes error:
+    
+    \begin{equation}
+    \begin{aligned}
+        & L_{T,M,\pi} = \\
+        & \frac{1}{MT} \sum_{m=1}^{M} \sum_{t=1}^{T} \mathbb{E}_{X_{t+1}^{(m)} \sim P(\cdot \mid H_t^{(m)}, D_{1:m-1}, \theta)} \left[ -\ln \hat P(X_{t+1}^{(m)}) \right]
+    \end{aligned}
+    \end{equation}
+    
+    The optimal Bayes error is:
+
+    \begin{equation}
+        \begin{aligned}
+            L_{T,M} = \min_{\pi} L_{T,M,\pi}
+        \end{aligned}
+    \end{equation}
+    
+    
+    A model achieving this error is called a Bayes-optimal Foundation Model.
+    \end{definition}
+    
+    \begin{lemma}~\cite{JeonLLR24}
+    The optimal Bayes error upper bound decomposes into three terms: 
+    1. Irreducible term \( \mathbb{H}(D_{M+1} \mid \theta_{M+1}) \) (conditional entropy of current document)
+    2. History term \( \mathbb{I}(H_M; \psi) \) (mutual information between historical context and meta-parameters)
+    3. Context estimation term \( \mathbb{I}(D_{M+1}; \theta_{M+1} \mid \psi) \) (mutual information between current document and task parameters given meta-parameters)
+    
+    Where \( H_m,t = \{ D_{1:m-1}, X_{1:t}^{(m)} \} \). For a new document and context, the Bayes error satisfies:
+
+    \begin{equation}
+        \begin{aligned}
+            & L_{M+1} \leq \frac{\mathbb{H}(D_{M+1} \mid \theta_{M+1})}{r} + \frac{\mathbb{I}(H_M; \psi)}{Mr} \\
+            & + \frac{\mathbb{I}(D_{M+1}; \theta_{M+1} \mid \psi)}{r}
+        \end{aligned}
+    \end{equation}
+    
+    for some \( r \leq T \). 
+    \end{lemma}
+    
+    This method can proves that linear representation learning with uniformly distributed parameters achieves the optimal performance upper bound for classical tasks~\cite{JeonLLR24}, deriving the sample complexity when the learning algorithm is perfect (yielding the Bayes-optimal model).
