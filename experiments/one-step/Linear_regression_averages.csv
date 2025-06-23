@@ -1,0 +1,2 @@
+Dataset,Claude 3 Opus,GPT-4,Gemini Pro,Mistral Medium,Mistral 8x22B,Mistral 8x7B,Code Llama 70B,Yi 34B Chat,DBRX,AdaBoost,Bagging,Gradient Boosting,KNN,Kernel Ridge,Lasso,Linear Regression + Poly,Linear Regression,MLP Deep 1,MLP Deep 2,MLP Deep 3,MLP Wide 1,MLP Wide 2,MLP Wide 3,Random Forest,Ridge,SVM,SVM + Scaler,Spline,Average,Last,Random
+Average,4.75,11.5,11.0,12.5,18.5,16.25,22.25,27.5,20.25,25.0,22.0,16.5,23.75,23.0,21.25,27.0,14.5,14.0,1.25,2.5,6.0,10.0,10.0,5.0,7.75,5.75,25.5,15.75,30.25,30.75,13.5

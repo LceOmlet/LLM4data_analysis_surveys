@@ -1,10 +1,12 @@
 | 模型类别       | 模型名称             | 线性任务 | 非线性任务 | 总体排名 |
 |----------------|----------------------|----------|------------|----------|
-| **LLMs**       | Claude 3 Opus       | N/A      | N/A        | N/A      |
-|                | GPT-4               | N/A      | N/A        | N/A      |
-|                | DBRX                | N/A      | N/A        | N/A      |
-| **监督模型**   | Gradient Boosting   | N/A      | N/A        | N/A      |
-|                | Linear Reg + Poly   | N/A      | N/A        | N/A      |
-|                | Random Forest       | N/A      | N/A        | N/A      |
-| **无监督基线** | Average             | N/A      | N/A        | N/A      |
-|                | Random              | N/A      | N/A        | N/A      |
+| **LLMs**       | Claude 3 Opus       | 4.75     | 3.0        | 3.88     |
+|                | GPT-4               | 11.5     | 4.4        | 7.95     |
+|                | DBRX                | 20.25    | 16.2       | 18.23    |
+| **监督模型**   | MLP Deep 2          | 1.25     | 20.2       | 10.73    |
+|                | MLP Deep 3          | 2.5      | 18.8       | 10.65    |
+|                | Gradient Boosting   | 16.5     | 8.0        | 12.25    |
+|                | Linear Reg + Poly   | 27.0     | 18.0       | 22.5     |
+|                | Random Forest       | 5.0      | 21.4       | 13.2     |
+| **无监督基线** | Average             | 30.25    | 22.0       | 26.13    |
+|                | Random              | 13.5     | 34.0       | 23.75    |

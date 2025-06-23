@@ -3,7 +3,7 @@ import numpy as np
 
 def calculate_column_averages():
     # 读取markdown文件并解析表格
-    file_path = r'./Linear_regression.md'
+    file_path = r'./Non_linear.md'
     
     # 读取文件内容
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -35,6 +35,9 @@ def calculate_column_averages():
         data.append(row_data)
     
     # 创建DataFrame
+    for i in range(len(data)):
+        print(len(data[i]))
+    print(len(columns))
     df = pd.DataFrame(data, columns=columns)
     
     # 将数值列转换为numeric类型（除了Dataset列）
@@ -54,7 +57,7 @@ def calculate_column_averages():
     avg_df = pd.DataFrame([averages])
     
     # 输出到CSV文件
-    output_path = r'./Linear_regression_averages.csv'
+    output_path = r'./Non_linear_averages.csv'
     avg_df.to_csv(output_path, index=False)
     
     print(f"列平均值已保存到: {output_path}")
