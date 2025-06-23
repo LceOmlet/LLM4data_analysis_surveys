@@ -1,0 +1,215 @@
+\begin{document}
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{geometry}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tikz-dependency}
+\usepackage{tikz-3dplot}
+\usepackage{tikz-cd}
+\usepackage{tikz-uml}
+\usepackage{tikz-graph}
+
+
+\begin{figure*}[h]
+    \centering
+\begin{tikzpicture}[
+  auto,
+  emptyNode/.style={
+    draw=none,
+    fill=none,
+    minimum height=0.8cm,
+    inner sep=0pt,
+    align=center,
+    scale=1.1
+  },
+  baseNode/.style={
+    rectangle,
+    draw,
+    rounded corners,
+    minimum height=0.8cm,
+    inner sep=2pt,
+    font=\small
+  },
+  leftParentNode/.style={
+    emptyNode,
+    text width=\leftParentNodeWidth,
+    text=black,
+    font=\bfseries,
+  },
+  rightParentNode/.style={
+    emptyNode,
+    text width=\rightParentNodeWidth,
+    text=black,
+    font=\bfseries
+  },
+  middleNode/.style={
+    baseNode,
+    text width=\middleNodeWidth,
+    fill=gray!20,
+    draw=gray!50,
+    text=black,
+    font=\tiny,
+    minimum height=\middleNodeHeight
+  },
+  >=stealth'
+]
+ % Define colors for left column subsections
+  \definecolor{DataManagementColor}{RGB}{31,119,180}
+  \definecolor{ExploratoryDataAnalysisColor}{RGB}{44,160,44}
+  \definecolor{ImplementationColor}{RGB}{255,127,14}
+  \definecolor{AssessmentColor}{RGB}{148,103,189}
+  
+  % Define colors for right column subsections
+  \definecolor{DSLUnderstandingColor}{RGB}{214,39,40}
+  \definecolor{DataQualityOptimizationColor}{RGB}{140,86,75}
+  \definecolor{AutoMLColor}{RGB}{23,190,207}
+  \definecolor{AccessibilityColor}{RGB}{227,119,194}
+  
+  % Define left column parent node
+  \node[leftParentNode] (left_parent) at (0,-2) {Task Solving};
+  
+  % Define right column parent node
+  \node[rightParentNode] (right_parent) at ($(left_parent)+(\horizontalSpacing,0)$) {Optimizations};
+  
+  % Middle reference node starting point
+  \coordinate (middleStart) at ($(left_parent)!0.5!(right_parent)$);
+  
+  % Left column child nodes
+  \node[baseNode, fill=DataManagementColor!20, draw=DataManagementColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of left_parent] (data_management) {Data Preparation};
+  \node[baseNode, fill=ExploratoryDataAnalysisColor!20, draw=ExploratoryDataAnalysisColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of data_management] (exploratory_data_analysis) {Exploratory DA};
+  \node[baseNode, fill=ImplementationColor!20, draw=ImplementationColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of exploratory_data_analysis] (implementing_methods) {Implementation};
+  \node[baseNode, fill=AssessmentColor!20, draw=AssessmentColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of implementing_methods] (assessing_results) {Assessment};
+  
+  % Right column child nodes
+  \node[baseNode, fill=DSLUnderstandingColor!20, draw=DSLUnderstandingColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of right_parent] (dsl_understanding) {Reasoning};
+  \node[baseNode, fill=DataQualityOptimizationColor!20, draw=DataQualityOptimizationColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of dsl_understanding] (PFM_quality) {Data Quality};
+  \node[baseNode, fill=AutoMLColor!20, draw=AutoMLColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of PFM_quality] (automated_ml) {Automation};
+  \node[baseNode, fill=AccessibilityColor!20, draw=AccessibilityColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of automated_ml] (accessible_models) {Accessibility};
+  
+  % Define middle nodes with citations
+  \def\middleNodes{
+    {group1}/{\cite{Nobari2023DTTAE}, \cite{Wang2023SoloDD}},
+    {group10}/{\cite{Carrott2024CoqPytPN}, \cite{Pei2023CanLL}, \cite{Wang2024TheoremLlamaTG}},
+    {group11}/{\cite{GrandWBOLTA24}},
+    {group12}/{\cite{CHORUS}, \cite{GPTuner}, \cite{LLMschema}, \cite{tabulargeneration}},
+    {group13}/{\cite{readyforNL2SQL}, \cite{smalllargemodelNL2SQL}, \cite{text2sqlevaluation}},
+    {group15}/{\cite{jha2023counterexample}, \cite{ye2024satlm}},
+    {group2}/{\cite{Li2024IsPB}, \cite{qi2024cleanagent}},
+    {group3}/{\cite{KGobjectrecognition}, \cite{Tang2024WorldCoderAM}, \cite{constructKG}, \cite{deem}, \cite{ni2024iterclean}, \cite{vos2022towards}},
+    {group4}/{\cite{Hollmann2023LargeLM}},
+    {group5}/{\cite{Dibia2023LIDAAT}, \cite{ma2023insightpilot}},
+    {group6}/{\cite{dubiel2024device}, \cite{ko2024filling}, \cite{li2024can}, \cite{nam2024using}, \cite{zheng2024revolutionizing}},
+    {group7}/{\cite{KoziolekGHALE24}, \cite{jain2024r2e}, \cite{repocomp}, \cite{yuan2023power}, \cite{zhengprise}},
+    {group8}/{\cite{nam2024optimized}, \cite{singh2023augmenting}},
+    {group9}/{\cite{EoTGE}, \cite{HsuMTW23}, \cite{HuZWCM0WSXZCY0K24}, \cite{SongY00024}, \cite{bai2024transformers}, \cite{sayed2024gizaml}},
+    {group_new_1}/{\cite{009brown2020language}, \cite{020arlot2010survey}, \cite{022batini2009methodologies}},
+    {group_new_2}/{\cite{027davenport2017competing}, \cite{029dietterich1995overfitting}, \cite{031guyon2003introduction}},
+    {group_new_3}/{\cite{032hastie2009elements}, \cite{033kaelbling1996reinforcement}, \cite{037little2019statistical}},
+    {group_new_4}/{\cite{040shmueli2011predictive}, \cite{094dai2017good}, \cite{097yoon2017semi}},
+    {group_new_5}/{\cite{102yang2018deep}, \cite{ACSV}, \cite{ActiveLearning}},
+    {group_new_6}/{\cite{Atzeni2023InfusingLS}, \cite{Bavishi2022NeurosymbolicRF}, \cite{CatSQL}},
+    {group_new_7}/{\cite{DeepJoin}, \cite{DeletangRDCGMGW24}, \cite{DhuliawalaKXRLC24}},
+    {group_new_8}/{\cite{Ditto}, \cite{Ellis2020DreamCoderGG}, \cite{Ember}},
+    {group_new_9}/{\cite{FMcard}, \cite{FMwrangling}, \cite{FevrySFCK20}},
+    {group_new_10}/{\cite{HansenCF24}, \cite{JiangSQLZZY25}, \cite{JongZFSC22}},
+    {group_new_11}/{\cite{KamoiZZHZ24}, \cite{Khakhar2023PACPS}, \cite{Lehmann2023LanguageMA}},
+    {group_new_12}/{\cite{LinDJZ24}, \cite{Loem2023SAIEFS}, \cite{Miao2022LearningIA}},
+    {group_new_13}/{\cite{NLPTune}, \cite{Neu2022GeneralizationBV}, \cite{NeuralDB}},
+    {group_new_14}/{\cite{ReActTable}, \cite{Rodriguez2024ExploringAO}, \cite{Starmie}},
+    {group_new_15}/{\cite{TURL}, \cite{WangCY0L0J24}, \cite{YanWWML24}},
+    {group_new_16}/{\cite{ZeroED}, \cite{Zhang2024LargeLM}, \cite{ZhangS24}},
+    {group_new_17}/{\cite{ahuja2023interventional}, \cite{alshahwan2024automated}, \cite{blaauwbroekgraph2tac}},
+    {group_new_18}/{\cite{brand2023parameterized}, \cite{buchholzrobustness}, \cite{caruana2022data}},
+    {group_new_19}/{\cite{cheng2022binding}, \cite{cummins2023large}, \cite{cummins2024meta}},
+    {group_new_20}/{\cite{du2024enhancing}, \cite{entityresolution}, \cite{fernandez2023large}},
+    {group_new_21}/{\cite{feyposition}, \cite{garcia2010using}, \cite{gerussi2022llm}},
+    {group_new_22}/{\cite{grinsztajn2022tree}, \cite{gu2023few}, \cite{heer2010declarative}},
+    {group_new_23}/{\cite{hongjin2024bright}, \cite{hu2023survey}, \cite{huamortizing}},
+    {group_new_24}/{\cite{huang2023kosa}, \cite{huh2023pool}, \cite{international2017dama}},
+    {group_new_25}/{\cite{jain2022jigsaw}, \cite{khoshafian1986object}, \cite{kim2022cicero}},
+    {group_new_26}/{\cite{lai2023ds}, \cite{li2023resdsql}, \cite{li2024flexkbqa}},
+    {group_new_27}/{\cite{li2024table}, \cite{li2024towards}, \cite{liu2023jarvix}},
+    {group_new_28}/{\cite{lyu2024automatic}, \cite{malberg2024felix}, \cite{myatt2007making}},
+    {group_new_29}/{\cite{ngom2024mallet}, \cite{peng2022self}, \cite{popov2019neural}},
+    {group_new_30}/{\cite{reizingerposition}, \cite{salehin2024automl}, \cite{schafer2023empirical}},
+    {group_new_31}/{\cite{schumann2013automated}, \cite{shao2023synthetic}, \cite{shih2018declarative}},
+    {group_new_32}/{\cite{sordoni2024joint}, \cite{truhn2023large}, \cite{turing1936computable}},
+    {group_new_33}/{\cite{van2020data}, \cite{vapnik2019rethinking}, \cite{vectorstorage}},
+    {group_new_34}/{\cite{vertsel2024hybrid}, \cite{vojivr2020editable}, \cite{wang1996beyond}},
+    {group_new_35}/{\cite{wang2023large}, \cite{weng2023g}, \cite{yang2024give}},
+    {group_new_36}/{\cite{yao2024tree}, \cite{zhang2024jellyfish}, \cite{zhou2025depth}},
+    {group_new_37}/{\cite{zhu2024retrieval}, \cite{zuo2022spine}}
+  }
+  
+  % Place middle column nodes
+  \def\yShift{-1cm}
+  
+  \foreach \name/\text in \middleNodes {
+    \node[middleNode] (\name) at ($(middleStart)-(0,\yShift+\leftVerticalSpacing)$) {\text};
+    \pgfmathparse{\yShift+\middleVerticalSpacing}
+    \xdef\yShift{\pgfmathresult}
+  }
+  
+  % Draw smooth connecting lines with corresponding theme colors
+  % Group connections based on the relationships in the tree
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group1.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group1.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group2.west);
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group2.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group2.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  % Add more connections based on existing groups
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group3.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group3.east) to [out=0, in=180] (PFM_quality.west);
+  
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group4.west);
+  \draw[->, thin, draw=AutoMLColor] (group4.east) to [out=0, in=180] (automated_ml.west);
+  
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group5.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group5.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group6.west);
+  \draw[->, thin, draw=AccessibilityColor] (group6.east) to [out=0, in=180] (accessible_models.west);
+  
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group7.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group7.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group8.west);
+  \draw[->, thin, draw=AccessibilityColor] (group8.east) to [out=0, in=180] (accessible_models.west);
+  
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group9.west);
+  \draw[->, thin, draw=AutoMLColor] (group9.east) to [out=0, in=180] (automated_ml.west);
+  
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group10.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group10.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group11.west);
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group11.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group11.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=AccessibilityColor] (group11.east) to [out=0, in=180] (accessible_models.west);
+  
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group12.west);
+  \draw[->, thin, draw=AccessibilityColor] (group12.east) to [out=0, in=180] (accessible_models.west);
+  
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group13.west);
+  \draw[->, thin, draw=AccessibilityColor] (group13.east) to [out=0, in=180] (accessible_models.west);
+  
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group15.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group15.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  \end{tikzpicture}
+  \caption{\textbf{An Overview of How PFMs Improve Data Analysis.} Updated figure showing the relationships between data analysis tasks and PFM-enabled optimizations with citations from chapters 2 and 3.}
+  
+  \end{figure*}
+
+\end{document}
