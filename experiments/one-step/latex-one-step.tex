@@ -11,6 +11,14 @@
 
 \begin{document}
 
+
+The study evaluates 33 models—including large language models (LLMs), supervised algorithms, and unsupervised baselines—on synthetic regression benchmarks designed to test their ability to infer linear and non-linear relationships. The linear tasks focus on sparse feature identification, such as datasets where only 1 out of 3 features is informative (e.g., \( y = \beta x_1 + \epsilon \), with \( x_2, x_3 \) as noise). For non-linear tasks, the benchmarks include classical functions like Friedman#1 (\( y = 10\sin(\pi x_0x_1) + 20(x_2-0.5)^2 + 10x_3 + 5x_4 + \epsilon \)) and custom-designed equations such as Original#1 (\( y = x + 10\sin(5\pi x/100) + 10\cos(6\pi x/100) \)), which combines linear trends with periodic oscillations. All datasets are synthetically generated with controlled distributions to ensure reproducibility and avoid pre-exposure to LLMs during pre-training.  
+
+Key findings reveal that LLMs (e.g., Claude 3 Opus, GPT-4) achieve strong performance across tasks by leveraging in-context learning (ICL), even outperforming specialized supervised methods like Gradient Boosting in non-linear scenarios. For instance, Claude 3 Opus excels in approximating complex functional forms (e.g., Friedman#2: \( y = \sqrt{x_1^2 + (x_2x_3 - 1/(x_2x_4))^2} + \epsilon \)) without gradient updates, though it occasionally struggles with extreme outliers. Supervised models like deep MLPs dominate sparse linear tasks but falter on non-linear interactions, while Linear Regression with Polynomial Features shows competitive performance on certain synthetic curves. Unsupervised baselines (e.g., random guessing) consistently underperform, highlighting the sophistication of ICL.  
+
+The study further demonstrates that LLMs achieve sub-linear regret in online learning settings, improving predictions as more in-context examples are provided. However, discrepancies arise between LLM-generated explanations and actual outputs (e.g., Claude 3 Opus incorrectly derives \( y = 0.91x + 12.16 \) for a dataset where the true linear fit is \( y = 0.97x + 2.94 \)), underscoring challenges in interpretability. These results challenge traditional supervised paradigms, suggesting that LLMs can approximate regression functions through semantic pattern recognition alone, even when faced with high-dimensional noise or complex functional relationships.
+
+
 \begin{table*}
     \centering
     \caption{\textbf{Performance comparison of different model categories on linear and non-linear tasks.} The table shows the ranking performance of LLMs, supervised models, and unsupervised baselines across different task types. Lower ranks indicate better performance.}
