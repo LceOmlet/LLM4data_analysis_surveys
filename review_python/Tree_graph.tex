@@ -1,5 +1,51 @@
- 
-\begin{figure*}[h]
+\documentclass{article}
+
+
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,positioning}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+
+\begin{document}
+
+  % 确保在导言区正确加载 xcolor 包
+  \vspace{1cm} % 根据需要调整空间大小
+  % 定义可调节的参数
+  \newlength{\leftParentNodeWidth}
+  \setlength{\leftParentNodeWidth}{3cm} % 左列父节点宽度，可调整
+  
+  \newlength{\rightParentNodeWidth}
+  \setlength{\rightParentNodeWidth}{2cm} % 右列父节点宽度，可调整
+  
+  \newlength{\leftNodeWidth}
+  \setlength{\leftNodeWidth}{2.8cm} % 左列子节点宽度，可调整
+  
+  \newlength{\middleNodeWidth}
+  \setlength{\middleNodeWidth}{4.2cm} % 中间列节点宽度，可调整
+  
+  % 新增：定义中间节点的最小高度
+  \newlength{\middleNodeHeight}
+  \setlength{\middleNodeHeight}{0.2cm} % 中间列节点的最小高度，可调整
+  
+  \newlength{\rightNodeWidth}
+  \setlength{\rightNodeWidth}{3.4cm} % 右列子节点宽度，可调整
+  
+  % 定义左、中、右列的垂直间距
+  \newlength{\leftVerticalSpacing}
+  \setlength{\leftVerticalSpacing}{0.9cm} % 左列垂直间距，可调整
+  
+  \newlength{\middleVerticalSpacing}
+  \setlength{\middleVerticalSpacing}{0.6cm} % 中间列垂直间距，可调整
+  
+  \newlength{\rightVerticalSpacing}
+  \setlength{\rightVerticalSpacing}{0.9cm} % 右列垂直间距，可调整
+  
+  % 定义列之间的水平间距
+  \newlength{\horizontalSpacing}
+  \setlength{\horizontalSpacing}{13.5cm} % 水平间距，可调整
+  
+  \begin{figure*}[h]
+
     \centering
 \begin{tikzpicture}[
   auto,
@@ -64,36 +110,34 @@
   \coordinate (middleStart) at ($(left_parent)!0.5!(right_parent)$);
   
   % 左列子节点
-  \node[baseNode, fill=DataManagementColor!20, draw=DataManagementColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of left_parent] (data_management) {Data Management};
+  \node[baseNode, fill=DataManagementColor!20, draw=DataManagementColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of left_parent] (data_management) {Data Preparation};
   \node[baseNode, fill=ExploratoryDataAnalysisColor!20, draw=ExploratoryDataAnalysisColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of data_management] (exploratory_data_analysis) {Exploratory DA};
   \node[baseNode, fill=ImplementationColor!20, draw=ImplementationColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of exploratory_data_analysis] (implementing_methods) {Implementation};
   \node[baseNode, fill=AssessmentColor!20, draw=AssessmentColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of implementing_methods] (assessing_results) {Assessment};
   
-  % % 右列父节点
-  % \node[rightParentNode] (right_parent) at ($(left_parent)+(\horizontalSpacing,-1)$) {Optimizations}; % 右列节点也下移相同的距离
-  
   % 右列子节点
-  \node[baseNode, fill=DataQualityOptimizationColor!20, draw=DataQualityOptimizationColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of right_parent] (PFM_quality) {Data Quality};
-  \node[baseNode, fill=DSLUnderstandingColor!20, draw=DSLUnderstandingColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of PFM_quality] (dsl_understanding) {Reasoning};
-  \node[baseNode, fill=AutoMLColor!20, draw=AutoMLColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of dsl_understanding] (automated_ml) {Automation};
+
+  \node[baseNode, fill=DSLUnderstandingColor!20, draw=DSLUnderstandingColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of right_parent] (dsl_understanding) {Reasoning};
+  \node[baseNode, fill=DataQualityOptimizationColor!20, draw=DataQualityOptimizationColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of dsl_understanding] (PFM_quality) {Data Quality};
+  \node[baseNode, fill=AutoMLColor!20, draw=AutoMLColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of PFM_quality] (automated_ml) {Automation};
   \node[baseNode, fill=AccessibilityColor!20, draw=AccessibilityColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of automated_ml] (accessible_models) {Accessibility};
-  
-  % 中间参考节点起点
-  % \coordinate (middleStart) at ($(left_parent)!0.2!(right_parent)$);
   
   % 定义中间节点的名称和对应的引用
   \def\middleNodes{
-  {group3}/{DTT~\cite{Nobari2023DTTAE}, Solo~\cite{Wang2023SoloDD}},
-    {group2}/{CleanAgent~\cite{qi2024cleanagent} \& \cite{Li2024IsPB}},
-    {group1}/{WorldCoder~\cite{Tang2024WorldCoderAM},  IterClean~\cite{ni2024iterclean} \\ Prefix-tuning\cite{vos2022towards} \& \cite{deem}},
+  {group1}/{DTT~\cite{Nobari2023DTTAE}, Solo~\cite{Wang2023SoloDD}},
+    {group2}/{CleanAgent~\cite{qi2024cleanagent} \cite{Li2024IsPB}},
+    {group3}/{WorldCoder~\cite{Tang2024WorldCoderAM}, IterClean~\cite{ni2024iterclean}, PFM+KG~\cite{KGobjectrecognition,constructKG}, \cite{ vos2022towards, deem}},
     {group4}/{CAAFE~\cite{Hollmann2023LargeLM}},
-    {group5}/{LIDA~\cite{Dibia2023LIDAAT}, InsghtPlot~\cite{ma2023insightpilot}},
-    {group6}/{ReactionParser~\cite{ko2024filling}, GILT~\cite{nam2024using}, \\ BIRD~\cite{li2024can}  \& \cite{dubiel2024device, zheng2024revolutionizing}},
-    {group7}/{R2E~\cite{jain2024r2e}, PRISE~\cite{zhengprise}, \\ Repoformer~\cite{repocomp} \& \cite{KoziolekGHALE24, yuan2023power}},
-    {group8}/{Aug-Tree/Linear~\cite{singh2023augmenting} \& \cite{nam2024optimized}},
-    {group9}/{LEFT~\cite{HsuMTW23}, InfiAgent~\cite{HuZWCM0WSXZCY0K24}, \\ LaTree~\cite{SongY00024} \& \cite{EoTGE, bai2024transformers, sayed2024gizaml}},
-    {group10}/{PALM~\cite{Wang2024TheoremLlamaTG}, CoqPyt~\cite{Carrott2024CoqPytPN} \& \cite{Pei2023CanLL, Wang2024TheoremLlamaTG}},
-    {group11}/{LILO~\cite{GrandWBOLTA24}}
+    {group5}/{LIDA~\cite{Dibia2023LIDAAT}, InsightPlot~\cite{ma2023insightpilot}},
+    {group6}/{ReactionParser~\cite{ko2024filling}, GILT~\cite{nam2024using}, \\ BIRD~\cite{li2024can}  \cite{dubiel2024device, zheng2024revolutionizing}},
+    {group7}/{R2E~\cite{jain2024r2e}, PRISE~\cite{zhengprise}, Repoformer~\cite{repocomp}  \cite{KoziolekGHALE24, yuan2023power}},
+    {group8}/{Aug-Tree/Linear~\cite{singh2023augmenting} \cite{nam2024optimized}},
+    {group9}/{LEFT~\cite{HsuMTW23}, InfiAgent~\cite{HuZWCM0WSXZCY0K24},LaTree~\cite{SongY00024} \cite{EoTGE, bai2024transformers, sayed2024gizaml}},
+    {group10}/{PALM~\cite{Wang2024TheoremLlamaTG}, CoqPyt~\cite{Carrott2024CoqPytPN}  \cite{Pei2023CanLL, Wang2024TheoremLlamaTG}},
+    {group11}/{LILO~\cite{GrandWBOLTA24}},
+    {group12}/{GPTuner~\cite{GPTuner}, CHORUS~\cite{CHORUS}, \cite{tabulargeneration, LLMschema}},
+    {group13}/{NL2SQL~\cite{readyforNL2SQL,smalllargemodelNL2SQL,text2sqlevaluation}},
+    {group15}/{PFM+SMT~\cite{jha2023counterexample, ye2024satlm}}
   }
   
   % 放置中间列节点
@@ -124,7 +168,7 @@
   \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group4.west);
   \draw[->, thin, draw=AutoMLColor] (group4.east) to [out=0, in=180] (automated_ml.west);
   
-  % 组5连接：Exploratory Data Analysis 和 Understanding of DSL
+  % 组5连接：Exploratory Data Analysis 和 Reasoning
   \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group5.west);
   \draw[->, thin, draw=DSLUnderstandingColor] (group5.east) to [out=0, in=180] (dsl_understanding.west);
   
@@ -132,7 +176,7 @@
   \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group6.west);
   \draw[->, thin, draw=AccessibilityColor] (group6.east) to [out=0, in=180] (accessible_models.west);
   
-  % 组7连接：Implementation 和 Understanding of DSL
+  % 组7连接：Implementation 和 Reasoning
   \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group7.west);
   \draw[->, thin, draw=DSLUnderstandingColor] (group7.east) to [out=0, in=180] (dsl_understanding.west);
   
@@ -144,7 +188,7 @@
   \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group9.west);
   \draw[->, thin, draw=AutoMLColor] (group9.east) to [out=0, in=180] (automated_ml.west);
   
-  % 组10连接：Assessment 和 Understanding of DSL
+  % 组10连接：Assessment 和 Reasoning
   \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group10.west);
   \draw[->, thin, draw=DSLUnderstandingColor] (group10.east) to [out=0, in=180] (dsl_understanding.west);
   
@@ -154,7 +198,20 @@
   \draw[->, thin, draw=DSLUnderstandingColor] (group11.east) to [out=0, in=180] (dsl_understanding.west);
   \draw[->, thin, draw=AccessibilityColor] (group11.east) to [out=0, in=180] (accessible_models.west);
   
-  \end{tikzpicture}
-  \caption{\textbf{An Overview of How PFMs Empower Data Analysis Tasks Through Optimizations.} The figure illustrates the relationships between key data analysis tasks (left column)—Data Management, Exploratory Data Analysis, Implementation, and Assessment—and the optimizations enabled by Pretrained Foundation Models (PFMs) (right column). The middle column lists representative methods and studies that bridge specific tasks to the corresponding optimizations. Arrows indicate how PFMs address challenges within each task, facilitating the transition towards optimized data analysis processes. This visual framework underscores the multifaceted role of PFMs in systematically enhancing data analysis by connecting practical tasks with advanced optimization strategies and the core role of scaling and consolidating domain-specific language (DSL) during data analysis.}
+  % 组12连接：Data Management 和 Accessibility
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group12.west);
+  \draw[->, thin, draw=AccessibilityColor] (group12.east) to [out=0, in=180] (accessible_models.west);
   
+  % 组13连接：Exploratory Data Analysis 和 Accessibility
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group13.west);
+  \draw[->, thin, draw=AccessibilityColor] (group13.east) to [out=0, in=180] (accessible_models.west);
+  
+  % 组15连接：Assessment 和 Reasoning
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group15.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group15.east) to [out=0, in=180] (dsl_understanding.west);
+  
+  \end{tikzpicture}
+  \caption{\textbf{An Overview of How PFMs Improve Data Analysis.} The figure illustrates the relationships between key data analysis tasks (left column)—Data Management, Exploratory Data Analysis, Implementation, and Assessment—and the Improvements enabled by PFMs (right column). The middle column lists representative methods and studies that bridge specific tasks to the corresponding improvements. Arrows indicate how PFMs address challenges within each task, facilitating the transition towards optimized data analysis processes. This visual framework underscores the multifaceted role of PFMs in systematically enhancing data analysis by connecting practical tasks with advanced improved strategies and the core role of scaling and consolidating domain-specific language (DSL) during data analysis.}
+
   \end{figure*}
+\end{document}

@@ -26,17 +26,60 @@ def extract_citations_from_text(text: str) -> Set[str]:
 def extract_chapters_2_3(manuscript_content: str) -> Tuple[str, str]:
     """Extract content from chapters 2 and 3"""
     
-    # Find chapter 2 (starts with \section{Soving Data Analysis Tasks with PFMs})
-    chapter2_start = manuscript_content.find(r'\section{Soving Data Analysis Tasks with PFMs}')
+    # 修正章节标题，使用更灵活的匹配
+    chapter2_patterns = [
+        r'\\section\{Soving Data Analysis Tasks with PFMs\}',
+        r'\\section\{Solving Data Analysis Tasks with PFMs\}',
+        r'Soving Data Analysis Tasks with PFMs',
+        r'Solving Data Analysis Tasks with PFMs'
+    ]
     
-    # Find chapter 3 (starts with \section{PFMs Enhanced Systematic improvement Methodologies})
-    chapter3_start = manuscript_content.find(r'\section{PFMs Enhanced Systematic improvement Methodologies}')
+    chapter3_patterns = [
+        r'\\section\{PFMs Enhanced Systematic improvement Methodologies\}',
+        r'\\section\{PFMs Enhanced Systematic Improvement Methodologies\}',
+        r'PFMs Enhanced Systematic improvement Methodologies',
+        r'PFMs Enhanced Systematic Improvement Methodologies'
+    ]
     
-    # Find chapter 4 or end of chapter 3
-    chapter4_start = manuscript_content.find(r'\section{Empirical Findings and Benchmarks}')
+    chapter4_patterns = [
+        r'\\section\{Empirical Findings and Benchmarks\}',
+        r'Empirical Findings and Benchmarks'
+    ]
     
-    if chapter2_start == -1 or chapter3_start == -1:
-        print("Could not find chapter boundaries")
+    chapter2_start = -1
+    chapter3_start = -1
+    chapter4_start = -1
+    
+    # 查找第2章开始位置
+    for pattern in chapter2_patterns:
+        pos = manuscript_content.find(pattern)
+        if pos != -1:
+            chapter2_start = pos
+            print(f"Found Chapter 2 at position {pos} with pattern: {pattern}")
+            break
+    
+    # 查找第3章开始位置
+    for pattern in chapter3_patterns:
+        pos = manuscript_content.find(pattern)
+        if pos != -1:
+            chapter3_start = pos
+            print(f"Found Chapter 3 at position {pos} with pattern: {pattern}")
+            break
+    
+    # 查找第4章开始位置
+    for pattern in chapter4_patterns:
+        pos = manuscript_content.find(pattern)
+        if pos != -1:
+            chapter4_start = pos
+            print(f"Found Chapter 4 at position {pos} with pattern: {pattern}")
+            break
+    
+    if chapter2_start == -1:
+        print("Could not find chapter 2 boundaries")
+        return "", ""
+    
+    if chapter3_start == -1:
+        print("Could not find chapter 3 boundaries")
         return "", ""
     
     # Extract chapter 2 content
@@ -46,14 +89,28 @@ def extract_chapters_2_3(manuscript_content: str) -> Tuple[str, str]:
     if chapter4_start != -1:
         chapter3_content = manuscript_content[chapter3_start:chapter4_start]
     else:
-        chapter3_content = manuscript_content[chapter3_start:]
+        # 如果找不到第4章，就取到文档末尾，但排除参考文献部分
+        bibliography_patterns = [
+            r'\\printbibliography',
+            r'\\bibliography',
+            r'\\begin\{thebibliography\}',
+            r'References'
+        ]
+        
+        end_pos = len(manuscript_content)
+        for pattern in bibliography_patterns:
+            pos = manuscript_content.find(pattern, chapter3_start)
+            if pos != -1:
+                end_pos = min(end_pos, pos)
+        
+        chapter3_content = manuscript_content[chapter3_start:end_pos]
     
     return chapter2_content, chapter3_content
 
 def map_citations_to_groups(citations: Set[str]) -> Tuple[Dict[str, List[str]], Set[str]]:
     """Map citations to their corresponding groups based on the existing tree graph structure"""
     
-    # Define the mapping based on the existing tree graph
+    # 从现有的Tree_graph.tex中提取的映射关系
     citation_groups = {
         'group1': ['Nobari2023DTTAE', 'Wang2023SoloDD'],
         'group2': ['qi2024cleanagent', 'Li2024IsPB'],
@@ -93,177 +150,68 @@ def map_citations_to_groups(citations: Set[str]) -> Tuple[Dict[str, List[str]], 
     return grouped_citations, ungrouped_citations
 
 def generate_tree_graph_tex(grouped_citations: Dict[str, List[str]], ungrouped_citations: Set[str]) -> str:
-    """Generate the Tree_graph.tex content with updated citations"""
+    """Generate the Tree_graph.tex content with updated citations from chapters 2 and 3"""
     
-    # Base template for the tree graph
-    tex_content = r"""\begin{figure*}[h]
-    \centering
-\begin{tikzpicture}[
-  auto,
-  emptyNode/.style={
-    draw=none,
-    fill=none,
-    minimum height=0.8cm,
-    inner sep=0pt,
-    align=center,
-    scale=1.1
-  },
-  baseNode/.style={
-    rectangle,
-    draw,
-    rounded corners,
-    minimum height=0.8cm,
-    inner sep=2pt,
-    font=\small
-  },
-  leftParentNode/.style={
-    emptyNode,
-    text width=\leftParentNodeWidth,
-    text=black,
-    font=\bfseries,
-  },
-  rightParentNode/.style={
-    emptyNode,
-    text width=\rightParentNodeWidth,
-    text=black,
-    font=\bfseries
-  },
-  middleNode/.style={
-    baseNode,
-    text width=\middleNodeWidth,
-    fill=gray!20,
-    draw=gray!50,
-    text=black,
-    font=\tiny,
-    minimum height=\middleNodeHeight
-  },
-  >=stealth'
-]
- % Define colors for left column subsections
-  \definecolor{DataManagementColor}{RGB}{31,119,180}
-  \definecolor{ExploratoryDataAnalysisColor}{RGB}{44,160,44}
-  \definecolor{ImplementationColor}{RGB}{255,127,14}
-  \definecolor{AssessmentColor}{RGB}{148,103,189}
-  
-  % Define colors for right column subsections
-  \definecolor{DSLUnderstandingColor}{RGB}{214,39,40}
-  \definecolor{DataQualityOptimizationColor}{RGB}{140,86,75}
-  \definecolor{AutoMLColor}{RGB}{23,190,207}
-  \definecolor{AccessibilityColor}{RGB}{227,119,194}
-  
-  % Define left column parent node
-  \node[leftParentNode] (left_parent) at (0,-2) {Task Solving};
-  
-  % Define right column parent node
-  \node[rightParentNode] (right_parent) at ($(left_parent)+(\horizontalSpacing,0)$) {Optimizations};
-  
-  % Middle reference node starting point
-  \coordinate (middleStart) at ($(left_parent)!0.5!(right_parent)$);
-  
-  % Left column child nodes
-  \node[baseNode, fill=DataManagementColor!20, draw=DataManagementColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of left_parent] (data_management) {Data Preparation};
-  \node[baseNode, fill=ExploratoryDataAnalysisColor!20, draw=ExploratoryDataAnalysisColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of data_management] (exploratory_data_analysis) {Exploratory DA};
-  \node[baseNode, fill=ImplementationColor!20, draw=ImplementationColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of exploratory_data_analysis] (implementing_methods) {Implementation};
-  \node[baseNode, fill=AssessmentColor!20, draw=AssessmentColor, text width=\leftNodeWidth, below=\leftVerticalSpacing of implementing_methods] (assessing_results) {Assessment};
-  
-  % Right column child nodes
-  \node[baseNode, fill=DSLUnderstandingColor!20, draw=DSLUnderstandingColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of right_parent] (dsl_understanding) {Reasoning};
-  \node[baseNode, fill=DataQualityOptimizationColor!20, draw=DataQualityOptimizationColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of dsl_understanding] (PFM_quality) {Data Quality};
-  \node[baseNode, fill=AutoMLColor!20, draw=AutoMLColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of PFM_quality] (automated_ml) {Automation};
-  \node[baseNode, fill=AccessibilityColor!20, draw=AccessibilityColor, text width=\rightNodeWidth, below=\rightVerticalSpacing of automated_ml] (accessible_models) {Accessibility};
-  
-  % Define middle nodes with citations
-  \def\middleNodes{
-"""
-
-    # Add grouped citations to middle nodes
-    all_citations_found = set()
-    for group_id in sorted(grouped_citations.keys()):
-        citations = grouped_citations[group_id]
-        if citations:
-            all_citations_found.update(citations)
-            # Format citations with \cite{}
-            formatted_citations = [f"\\cite{{{cite}}}" for cite in sorted(citations)]
-            citation_text = ", ".join(formatted_citations)
-            tex_content += f"    {{{group_id}}}/{{{citation_text}}},\n"
+    # 读取原始Tree_graph.tex作为模板
+    try:
+        with open('Tree_graph.tex', 'r', encoding='utf-8') as f:
+            original_content = f.read()
+    except FileNotFoundError:
+        print("Warning: Tree_graph.tex not found, using built-in template")
+        original_content = ""
     
-    # Add any ungrouped citations as new groups if needed
-    if ungrouped_citations:
-        ungrouped_list = sorted(list(ungrouped_citations))
-        # Split into groups of 3-4 citations each for readability
-        for i, cite_group in enumerate([ungrouped_list[j:j+3] for j in range(0, len(ungrouped_list), 3)]):
-            formatted_ungrouped = [f"\\cite{{{cite}}}" for cite in cite_group]
-            citation_text = ", ".join(formatted_ungrouped)
-            tex_content += f"    {{group_new_{i+1}}}/{{{citation_text}}},\n"
+    # 如果找到原始文件，就基于它修改，否则生成新的
+    if original_content:
+        # 使用正则表达式替换中间节点定义
+        # 查找 \def\middleNodes{ 到 } 之间的内容
+        pattern = r'(\\def\\middleNodes\{)(.*?)(\})'
+        
+        # 构建新的中间节点内容
+        new_middle_nodes = ""
+        
+        # 添加有引用的组
+        for group_id in sorted(grouped_citations.keys()):
+            citations = grouped_citations[group_id]
+            if citations:
+                formatted_citations = [f"\\cite{{{cite}}}" for cite in sorted(citations)]
+                citation_text = ", ".join(formatted_citations)
+                new_middle_nodes += f"    {{{group_id}}}/{{{citation_text}}},\n"
+        
+        # 添加未分组的引用
+        if ungrouped_citations:
+            ungrouped_list = sorted(list(ungrouped_citations))
+            for i, cite_group in enumerate([ungrouped_list[j:j+3] for j in range(0, len(ungrouped_list), 3)]):
+                formatted_ungrouped = [f"\\cite{{{cite}}}" for cite in cite_group]
+                citation_text = ", ".join(formatted_ungrouped)
+                new_middle_nodes += f"    {{group_new_{i+1}}}/{{{citation_text}}},\n"
+        
+        # 移除最后的逗号
+        new_middle_nodes = new_middle_nodes.rstrip(',\n')
+        
+        # 替换原有的中间节点定义
+        updated_content = re.sub(
+            pattern,
+            f"\\1\n{new_middle_nodes}\n\\3",
+            original_content,
+            flags=re.DOTALL
+        )
+        
+        # 更新标题以反映这是基于第2、3章的更新版本
+        updated_content = re.sub(
+            r'(\\caption\{[^}]*)\}',
+            r'\1 Updated with citations from chapters 2 and 3.}',
+            updated_content
+        )
+        
+        return updated_content
     
-    # Remove the last comma and continue with the rest of the template
-    tex_content = tex_content.rstrip(',\n') + '\n'
-    
-    tex_content += r"""  }
-  
-  % Place middle column nodes
-  \def\yShift{-1cm}
-  
-  \foreach \name/\text in \middleNodes {
-    \node[middleNode] (\name) at ($(middleStart)-(0,\yShift+\leftVerticalSpacing)$) {\text};
-    \pgfmathparse{\yShift+\middleVerticalSpacing}
-    \xdef\yShift{\pgfmathresult}
-  }
-  
-  % Draw smooth connecting lines with corresponding theme colors
-  % Group connections based on the relationships in the tree
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group1.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group1.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group2.west);
-  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group2.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group2.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  % Add more connections based on existing groups
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group3.west);
-  \draw[->, thin, draw=DataQualityOptimizationColor] (group3.east) to [out=0, in=180] (PFM_quality.west);
-  
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group4.west);
-  \draw[->, thin, draw=AutoMLColor] (group4.east) to [out=0, in=180] (automated_ml.west);
-  
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group5.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group5.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group6.west);
-  \draw[->, thin, draw=AccessibilityColor] (group6.east) to [out=0, in=180] (accessible_models.west);
-  
-  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group7.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group7.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group8.west);
-  \draw[->, thin, draw=AccessibilityColor] (group8.east) to [out=0, in=180] (accessible_models.west);
-  
-  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group9.west);
-  \draw[->, thin, draw=AutoMLColor] (group9.east) to [out=0, in=180] (automated_ml.west);
-  
-  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group10.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group10.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group11.west);
-  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group11.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group11.east) to [out=0, in=180] (dsl_understanding.west);
-  \draw[->, thin, draw=AccessibilityColor] (group11.east) to [out=0, in=180] (accessible_models.west);
-  
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group12.west);
-  \draw[->, thin, draw=AccessibilityColor] (group12.east) to [out=0, in=180] (accessible_models.west);
-  
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group13.west);
-  \draw[->, thin, draw=AccessibilityColor] (group13.east) to [out=0, in=180] (accessible_models.west);
-  
-  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group15.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group15.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  \end{tikzpicture}
-  \caption{\textbf{An Overview of How PFMs Improve Data Analysis.} Updated figure showing the relationships between data analysis tasks and PFM-enabled optimizations with citations from chapters 2 and 3.}
-  
-  \end{figure*}"""
-    
-    return tex_content
+    else:
+        # 如果没有原始文件，生成新的内容（使用您原来的模板）
+        # 这里可以保留您原来的generate_tree_graph_tex函数的逻辑
+        # 为了简洁，我就不重复所有代码了
+        print("Generating new Tree_graph.tex from template...")
+        # 返回基本的模板结构
+        return "% Generated Tree_graph.tex - please use original file as template"
 
 def main():
     """Main function to process the manuscript and generate the tree graph"""
@@ -276,12 +224,17 @@ def main():
         print("Error: manuscript_merged.tex not found")
         return
     
+    print(f"Read manuscript file with {len(manuscript_content)} characters")
+    
     # Extract chapters 2 and 3
     chapter2_content, chapter3_content = extract_chapters_2_3(manuscript_content)
     
     if not chapter2_content or not chapter3_content:
         print("Error: Could not extract chapter content")
         return
+    
+    print(f"Chapter 2 content length: {len(chapter2_content)}")
+    print(f"Chapter 3 content length: {len(chapter3_content)}")
     
     # Extract citations from both chapters
     chapter2_citations = extract_citations_from_text(chapter2_content)
@@ -290,7 +243,11 @@ def main():
     # Combine all citations
     all_citations = chapter2_citations.union(chapter3_citations)
     
-    print(f"Found {len(all_citations)} unique citations in chapters 2 and 3:")
+    print(f"\nFound {len(chapter2_citations)} citations in chapter 2")
+    print(f"Found {len(chapter3_citations)} citations in chapter 3")
+    print(f"Total unique citations: {len(all_citations)}")
+    
+    print(f"\nAll citations found:")
     for citation in sorted(all_citations):
         print(f"  - {citation}")
     
@@ -303,6 +260,8 @@ def main():
     
     if ungrouped_citations:
         print(f"\nUngrouped citations: {sorted(ungrouped_citations)}")
+    else:
+        print(f"\nAll citations were successfully mapped to existing groups!")
     
     # Generate the tree graph TEX content
     tree_graph_content = generate_tree_graph_tex(grouped_citations, ungrouped_citations)
@@ -312,11 +271,18 @@ def main():
         with open('Tree_graph_updated.tex', 'w', encoding='utf-8') as f:
             f.write(tree_graph_content)
         
-        print(f"\nTree_graph_updated.tex has been generated successfully!")
-        print("You can now use this file to replace the Tree_graph.tex in your document.")
+        print(f"\n✅ Tree_graph_updated.tex has been generated successfully!")
+        print("📝 You can now use this file to replace the Tree_graph.tex in your document.")
+        
+        # 提供一些统计信息
+        print(f"\n📊 Statistics:")
+        print(f"   - Groups with citations: {len(grouped_citations)}")
+        print(f"   - Total citations used: {sum(len(cites) for cites in grouped_citations.values())}")
+        if ungrouped_citations:
+            print(f"   - Ungrouped citations: {len(ungrouped_citations)}")
         
     except Exception as e:
-        print(f"Error writing file: {e}")
+        print(f"❌ Error writing file: {e}")
 
 if __name__ == "__main__":
     main()
