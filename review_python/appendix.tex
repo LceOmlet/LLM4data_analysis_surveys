@@ -1,0 +1,724 @@
+\section{Related Work}\label{sec:rela}
+
+In this section, we overview the research in the landscape related to the domain of our work. We categorize them into three themes and discuss their contributions, limitations, and relevance to our work.
+
+\subsection{Representation Learning for Time Series}
+
+Unsupervised representation learning provides a scalable approach to obtain meaningful representations~\cite{meng2023unsupervised}. Neural architectures such as autoencoders and seq2seq models~\cite{vadiraja2020survey} have paved the way for methods based on data reconstruction and context prediction to learn representations~\cite{ma2019learning, malhotra2017timenet}. Contrastive learning distinguishes the strict positive (augmented by the same sample) and negative (positive) sample pairs to capture invariance after augmentation, which is presented as an important method~\cite{huynh2022boosting,franceschi2019unsupervised, eldele2021time, yue2022ts2vec, wu2022timesnet}. Representation learning not only unifies different tasks but also provides scalable ways for time series data management~\cite{paparrizos2019grail}.
+
+
+
+Notably, URL encompasses multi-levels of learning objectives: instance level~\cite{chen2020big, oord2018representation,chen2020simple}, cluster (prototype) level~\cite{li2020prototypical, caron2020unsupervised, meng2023mhccl}, and temporal level~\cite{tonekaboni2021unsupervised, eldele2021time, hyvarinen2016unsupervised}, etc., each capturing different aspects of similarity and dependency in data, representing preservation of \textit{local} or \textit{global} arrangement of the temporal data.
+
+On time series, instance-level contrastive learning perturbs original samples, emphasizing the retention of salient features~\cite{yue2022ts2vec}. In this case, the proposed supervision signal enhances the preservation of the \textit{local} arrangement of data sampled from a distribution of permuted samples. It works well when downstream task goals are sensitive to \textit{local} fluctuations. 
+
+Cluster-level contrastive learning extends the focus to the \textit{global} shape of sample distributions~\cite{meng2023mhccl}. Meanwhile, temporal-level contrastive learning captures temporal dependencies surrounding each sample, learning the causal structure of time series data as \textit{global} arrangement~\cite{eldele2021time}. GRAIL~\cite{paparrizos2019grail} learns temporal representation vectors to reconstruct the distance matrix with the temporal invariance distance measure. These methods \textit{globally} align \textit{local} structures captured naturally by the encoder, thus, injecting different global information into the feature encoder.
+
+\subsection{Feature Transforms}\label{sec:transform_main}
+
+Researchers have investigated various signal processing and feature engineering techniques. These techniques help preserve salient patterns that are challenging to capture without additional prior knowledge. Here's how these techniques achieve this and their impact. In this paper, we leverage four of them. (1). Discrete Fourier transform (DFT)~\cite{yang2022unsupervised,winograd1978computing}, which reveals the spectral structure of the original time series. (2). Continuous wavelet transform (CWT)~\cite{grossmann1990reading} can help to balance the temporal and spectral resolution. (3). image-like features (i.e., GAF, RP~\cite{wang2015encoding}), which can be encoded leveraging the local precentral view of CNNs. (4). Symbolic features (i.e., SFA~\cite{tang2020interpretable}, SAX~\cite{notaristefano2013data}), which view the time series as the composition of symbols that can be semantically computed and understood. Full details about these transforms are elaborated in the appendix, \textbf{Sec.}~\ref{sec:transforms}. 
+
+Generally, these methods provide sparse and overcomplete representations that are challenging to fully take advantage of in various tasks. Our proposed framework can make a dense representation of them comprehensively and efficiently.
+
+
+\subsection{URL Based on Regularization and Multi-view Learning}
+
+Despite successful contrastive learning, the trend leans toward methods integrating direct sample binding and alignment in URL, and learning hypotheses from multiple views of grounded operations, properties, and concepts~\cite{girdhar2023imagebind, yariv2023audiotoken}. Regularization-based approaches~\cite{bardes2021vicreg} focus on positive sample pairs to reduce Dirichlet energy on a graph, bypassing the curse of dimensionality linked to numerous negative samplings~\cite{balestriero2022contrastive}.
+
+Existing methods leveraging multi-modal features often rely on feature fusion \cite{yang2022unsupervised, tang2020interpretable}. However, in URL for time series, these approaches, exemplified by \cite{yang2022unsupervised}, focus on domain-specific transforms and fusion strategies without considering informative associations across views. 
+
+Our algorithm learns global and local sample arrangements effectively, resulting in stronger theoretical guarantees and outperforming state-of-the-art URL methods.
+
+\section{Feature transforms}\label{sec:transforms}
+
+In this section, we provide detailed descriptions of the transforms leveraged in the proposed method, which are first introduced briefly in \textbf{Sec.}~\ref{sec:transform_main}.
+
+\subsection{Discrete Fourier Transform (DFT)}
+
+With the same neural architectures and similar training objectives, URL methods using only DFT transformed time series or only raw data share a small proportion of false prediction during evaluation, with the rest of them being non-overlapping, revealing relatively independent inductive bias~\cite{yang2022unsupervised}. 
+
+Fourier transform decomposes the time series into its frequency components~\cite{winograd1978computing}, while raw time series data contains information about the temporal trends and fluctuations.
+
+
+The transformed and raw data offer complementary insights into underlying patterns. False predictions often stem from distinct false patterns introduced respectably. Merging these views amalgamates their complementary information.
+
+\subsection{Continuous wavelet transform (CWT)}
+
+CWT is a tool that provides an overcomplete representation of a signal by letting the translation and scale parameter of wavelets vary continuously~\cite{grossmann1990reading}. The abundance of features generated by various mother wavelets and overcompleteness allow analysis with higher accuracy. 
+
+Compared to raw time series that collapse spectral features, or spectral transforms obscuring temporal stages and trends, Continuous Wavelet Transform (CWT) arranges temporal and spectral patterns in a 2D plane, generating informative yet redundant features for URL. However, its high computational time for Multivariate Time Series (MTS) limits its use in time series URL studies.
+
+\subsection{Encoding Time Series To Image}\label{sec:imag}
+
+\cite{wang2015encoding} proposes a framework to encode time series data as different types of "images" thus allowing machines to "visually" recognize and classify time series. This approach helps to extract patterns and structures that are less identifiable in the raw data. For example, using a polar coordinate system, Gramian Angular Field (GAF) images a represented as a Gramian matrix where each element is the trigonometric sum between different time intervals.   
+
+Learning methods based on these transforms always leverage a CNN structure to exploit translational invariance within the "images" by extracting features through receptive fields.
+
+\subsection{Symbolic transform}
+
+Symbolic representation techniques like Symbolic Aggregate Approximation (SAX)\cite{notaristefano2013data} or Symbolic Fourier Approximation (SFA)\cite{schafer2012sfa} transform noisy time series data into abstract symbolic patterns, filtering out noise and reducing classifier overfitting.
+
+SFA, a promising method for time series classification~\cite{tang2020interpretable}, aids in handling high-dimensional, sparse data prone to overfitting. Our approach utilizes these transforms to construct multi-modal views of raw data, guiding the raw MTS encoder to match distributions of crucial patterns extracted by diverse transform-encoder compositions, addressing challenges related to high dimensionality, sparsity, and complex pattern interactions in time series data.
+
+\section{Neural Encoder}\label{sec:neur_encoder}
+
+In this section, we introduce the rest of the encoders for all the modalities transformed from raw time series, and their domains and codomains, which are first mentioned in \textbf{Sec.}~\ref{sec:neur_encoder_main}.
+
+\subsection{Convolutional Neural Network}
+
+To extract patterns from spectral sequences and two-dimensional matrices using local perceptive fields, we utilize one and two-dimensional ResNet CNN architectures as feature extractors. $T^{(img)}: \mathbb{R}^{D\times T} \to \mathbb{R}^{D \times d_w \times d_h}$ represents the transform operator encoding raw MTS samples into $D$ 2D image-style feature matrices (\textbf{Sec.}~\ref{sec:imag}). Similarly, $T^{(cwt)}$ represents the CWT operator generating 2D feature matrices for $D$ channels. Both are accompanied by 2D ResNet encoders, which also include interpolation for ensuring the encoder's input size $d_w \times d_h$. As for the DFT transform operator, $T^{(dft)}: \mathbb{R}^{D\times T} \to \mathbb{R}^{D \times T}$, we employ a 1D ResNet as the encoder.
+
+\subsection{Transformer}
+
+To capture patterns that imply symbolic features transformed from the raw time series. We take advantage of the methods that are used in sequence modeling of natural language. Transformers can be used as feature extractors, and importantly, they can be pre-trained to enhance diverse information. We observe a boost in the downstream task performance with a pre-trained transformer as a language model. 
+
+The symbolic transformer operator $T^{(sfa)}: \mathbb{R}^{D\times T} \to \mathbb{R}^{L \times d_e}$ first transforms MTS to token sequences, then the joint the sequences to a long sequence with separators. $L$ denotes the length of the token sequence. Finally, we look up the word embeddings of the tokens as input of the transformer encoder.
+
+
+
+\section{Experiment Details}\label{sec:exp_detail}
+
+In this section, we exhibit the details of implementations of downstream tasks and baselines, characteristics of the datasets, evaluation metrics, and implementation details of our proposed methods, which are sufficient support for our demonstration of the experiments in \textbf{Sec.}~\ref{sec:empi}. 
+
+
+\subsection{Experimental Settings}
+We perform extensive experiments on a total of 31 real-world datasets to comprehensively analyze the quality of MMFA representations across diverse patterns. Our investigation encompasses three primary tasks, supervised classification, unsupervised clustering, and anomaly detection. It is noteworthy that in the case of anomaly detection, the MTS representation is considered at the segment level (as opposed to observation-level \cite{li2021multivariate, su2019robust}). 
+
+Specifically, we follow the protocols introduced in \cite{Wu2020CurrentTS} to evaluate accuracies and F1 scores for the UCR anomaly datasets. To address these tasks, we train famous basic models, i.e., SVM, K-means, and Isolation Forest on the acquired representations, w.r.t the classification clustering and anomaly detection task. The datasets, baseline methods, implementations, and evaluation metrics are presented for clarity.
+
+\subsubsection{Datasets} To assess the representation quality across three downstream tasks, we employ 35 diverse MTS datasets. These datasets exhibit variations in sample size, dimensionality, length, number of classes, and application scenarios. The default train/test split is applied uniformly across all datasets, with the encoder and task-specific models exclusively trained on the training samples. The specific datasets utilized for each task are outlined below. The original datasets' dimensionalities (channel numbers) can overwhelm 2D transforms (e.g., RP, CWT) and ResNet encoders due to limited computation resources. Therefore, we perform average pooling on transformed multi-channel 2D features, capping dataset channels at 64. Raw time series channels remain unchanged for input into the time series encoder.
+
+
+
+
+\textit{\underline{Classification.}} We assess the performance of MTS categorization across all 30 datasets from the widely used UEA archive~\cite{bagnall2018uea}. These datasets encompass diverse domains such as human action recognition, Electrocardiography monitoring, and audio classification~\cite{bagnall2018uea}. The statistical details of the datasets can be found in \textbf{Tab.}~\ref{tab:uea_statistics}.
+
+\textit{\underline{Clustering.}} In line with a recent study on clustering multivariate time series, we assess the performance of clustering using 12 diverse UEA subsets. These subsets exhibit significant heterogeneity in terms of training/test set sizes, length, as well as the number of dimensions and classes. The statistics for these 12 datasets are shown in \textbf{Tab.}~\ref{tab:uea_statistics} (denoted by *).
+
+
+\textit{\underline{Anomaly Detection.}} In this study, we leverage four recently released datasets sourced from diverse real-world applications to perform anomaly detection. The datasets include anomaly data from the Soil Moisture Active Passive satellite (SMAP) and the Mares Science Laboratory rover (MSL), both obtained through NASA~\cite{hundman2018detecting}. Additionally, we utilize the Server Machine Data (SMD), a dataset spanning five weeks, collected by~\cite{su2019robust} from a major Internet company. The Application Server Dataset (ASD) covers 45 days and characterizes the server's status, recently compiled by~\cite{li2021multivariate}. Following the methodology outlined in~\cite{li2021multivariate}, we evaluate SMD using 12 entities unaffected by concept drift. The dataset statistics are shown in \textbf{Tab.}~\ref{tab:ad_statistics}. We also use the UCR Anomaly Detection Dataset~\cite{Wu2020CurrentTS}, which aggregates 250-time series data sub-sets across multiple domains for robust anomaly detection testing.
+
+\subsubsection{Baselines} We use 21 baselines for comparison, which are divided into two groups:
+
+\textit{\underline{URL methods.}} We compare our MMFA framework with 6-time series URL baselines, including TS2Vec~\cite{yue2022ts2vec}, T-Loss~\cite{franceschi2019unsupervised}, TNC~\cite{tonekaboni2021unsupervised}, TS-TCC~\cite{eldele2021time},  TST~\cite{zerveas2021transformer} and CSL~\cite{liang2023contrastive}. All URL competitors are evaluated similarly to MMFA for a fair comparison.
+
+\textit{\underline{Methods tailored to specific tasks.}} We also incorporate benchmarks customized for downstream tasks. We opt for distinguished strategies in classification, including the widely-used baseline DTWD~\cite{bagnall2018uea}. DTWD employs a one-nearest-neighbor classifier with dynamic time warping as the distance metric. Additionally, we consider five supervised techniques: MLSTM-FCNs~\cite{karim2019multivariate} utilizing recurrent neural networks, TapNet~\cite{zhang2020tapnet} employing attentional prototypes, ShapeNet~\cite{li2021shapenet} based on shapelets, and CNN-based models OSCNN~\cite{tang2020omni} and DSN~\cite{xiao2022dynamic}. We exclude ensemble methods such as those outlined in~\cite{lines2018time} to ensure a fair comparison. It is worth noting that the supervised classification methods leverage true labels for feature learning, akin to data augmentation or sampling in URL. Hence, the fairness of the comparison between MMFA and the baselines is maintained.
+
+We assess six sophisticated clustering benchmarks, including feature selection based Time2Feat~\cite{bonifati2022time2feat}, dimension-reduction-based MC2PCA~\cite{li2019multivariate} and TCK~\cite{mikalsen2018time}, distance-based m-kAVG+ED and m-kDBA~\cite{ozer2020discovering}, deep learning-based DeTSEC~\cite{ienco2020deep}, and shapelet-based MUSLA~\cite{zhang2022multiview}.
+
+Since no documented anomaly detection evaluations in segment-level settings exist, we create two raw MTS baselines using Isolation Forest for fair comparisons, models operating at each timestamp (IF-p) or within each sliding window (denoted as IF-s).
+
+\subsubsection{Evaluation Metrics.} Standard metrics are used to assess downstream task performance. Accuracy (Acc)~\cite{bagnall2018uea} is applied for classification tasks. Clustering outcomes are measured using Rand Index (RI) and Normalized Mutual Information (NMI)~\cite{zhang2022multiview, zhang2018salient}. Anomaly detection employs F1-score~\cite{li2021multivariate}.
+
+In this study, we employed Cohen's d~\cite{becker2000effect} as a metric to analyze the performance enhancement of our proposed algorithm relative to existing methods across multiple datasets. The average effect size for the performance improvement of the $i$th algorithm over the others was calculated using the formula \( c_i = \frac 1 {n-1} \sum_{j\neq i}\frac{p_i - p_j}{ std(p_1, \ldots, p_n)} \), where \( p_i, i \in [n] \) represent the performance of the respective algorithms. The standard deviation is computed from the performance values across all methods. By evaluating Cohen's d values for each method, we derived an average effect size that encapsulates the overall performance improvement of our algorithm in comparison to the benchmark methods.
+
+\subsection{Implementation Details.} The MMFA framework is implemented using PyTorch 1.10.2, and all experiments run on a Ubuntu machine equipped with Tesla A100 GPUs. Data augmentation methods are implemented using tsaug~\cite{tsaug} with default parameters.
+
+The majority of MMFA's hyperparameters are consistently assigned fixed values across all experiments, devoid of any hyperparameter optimization. The coefficients $\alpha$ and $\beta$ in Eq.~\ref{eq:loss} are both assigned a value of 25, while $\gamma$ is set to 1. Additionally, $\epsilon$ takes on the value of $10^{-7}$ in Eq.~\ref{eq:cov}. The SGD optimizer is employed to train all feature encoders with a learning rate fixed at $10^{-4}$.
+
+For simplicity, to discover high-performance transform-encoder compositions for each of the datasets, we treat the raw time series encoder as the \textbf{main encoder}, and evaluate the rest of each of the compositions in \textbf{Tab.}~\ref{tab:TFpairs}, respectively. Then, the main encoder and the rest of the top-3 encoders are trained together according to Alg.~\ref{algo}. 
+
+Finally, we report the highest performance. For all datasets, the batch size is uniformly set to 8. We reproduce the time series URL baseline by employing the publicly available code provided by the original authors, configured as recommended. The classification baselines and task-specific clustering baselines' outcomes are extracted from the cited publications~\cite{bagnall2018uea, li2021shapenet, tang2020omni, xiao2022dynamic, yue2022ts2vec, zhang2022multiview}. Our reproduced results cover other aspects.
+
+
+\begin{table}[h]
+    \centering
+    \caption{Statistics on the 30 UEA datasets are employed for classification assessment, while 12 specific subsets (denoted by $^*$) undergo clustering evaluation as per the methodology outlined in ~\cite{zhang2022multiview}.}
+    \resizebox{.55\linewidth}{!}{\begin{tabular}{lccccc}
+\toprule
+Dataset	& \# Train &	\# Test &	\# Dim &	Length &	\# Class \\
+\midrule
+
+ArticularyWordRecognition$^*$ & 275 & 300 & 9 & 144 & 25 \\
+
+AtrialFibrillation$^*$ & 15 & 15 & 2 & 640 & 3 \\
+
+BasicMotions$^*$ & 40 & 40 & 6 & 100 & 4 \\
+
+CharacterTrajectories & 1422 & 1436 & 3 & 182 & 20 \\
+
+Cricket & 108 & 72 & 6 & 1197 & 12 \\
+
+DuckDuckGeese & 50 & 50 & 1345 & 270 & 5 \\
+
+EigenWorms & 128 & 131 & 6 & 17984 & 5 \\
+
+Epilepsy$^*$ & 137 & 138 & 3 & 206 & 4 \\
+
+EthanolConcentration & 261 & 263 & 3 & 1751 & 4 \\
+
+ERing$^*$ & 30 & 270 & 4 & 65 & 6 \\
+
+FaceDetection & 5890 & 3524 & 144 & 62 & 2 \\
+
+FingerMovements & 316 & 100 & 28 & 50 & 2 \\
+
+HandMovementDirection$^*$ & 160 & 74 & 10 & 400 & \textit{4} \\
+
+Handwriting & 150 & 850 & 3 & 152 & 26 \\
+
+Heartbeat & 204 & 205 & 61 & 405 & 2 \\
+
+InsectWingbeat & 30000 & 20000 & 200 & 30 & 10 \\
+
+JapaneseVowels & 270 & 370 & 12 & 29 & 9 \\
+
+Libras$^*$ & 180 & 180 & 2 & 45 & 15 \\
+
+LSST & 2459 & 2466 & 6 & 36 & 14 \\
+
+MotorImagery & 278 & 100 & 64 & 3000 & 2 \\
+
+NATOPS$^*$ & 180 & 180 & 24 & 51 & 6 \\
+
+PenDigits$^*$ & 7494 & 3498 & 2 & 8 & 10 \\
+
+PEMS-SF$^*$ & 267 & 173 & 963 & 144 & 7 \\
+
+Phoneme & 3315 & 3353 & 11 & 217 & 39 \\
+
+RacketSports & 151 & 152 & 6 & 30 & 4 \\
+
+SelfRegulationSCP1 & 268 & 293 & 6 & 896 & 2 \\
+
+SelfRegulationSCP2 & 200 & 180 & 7 & 1152 & 2 \\
+
+SpokenArabicDigits & 6599 & 2199 & 13 & 93 & 10 \\
+
+StandWalkJump$^*$ & 12 & 15 & 4 & 2500 & 3 \\
+
+UWaveGestureLibrary$^*$ & 120 & 320 & 3 & 315 & 8 \\
+
+
+\bottomrule
+    \end{tabular}}
+    \label{tab:uea_statistics}
+\end{table}
+
+
+\begin{table}[h]
+    \centering
+    \caption{Statistics of evaluated anomaly detection datasets.}
+    \resizebox{0.50\linewidth}{!}{\begin{tabular}{lccccc}
+\toprule
+Dataset	&  \# Entity  & \# Dim & Train length & Test length & Anomaly ratio (\%) \\
+\midrule
+
+UCR & 250 & 1 & 5302449 & 12919799 & 0.38 \\
+\bottomrule
+    \end{tabular}}
+    \label{tab:ad_statistics}
+\end{table}
+
+\subsection{Additional Research Questions}\label{sec:additional_RQs}
+
+
+
+
+
+
+\begin{researchq}
+What is the impact of data characteristics?
+\end{researchq}
+
+In our analysis, the evaluated datasets exhibit significant variations in training dataset sizes, numbers of channels, time series length, and salient patterns. \textbf{Tab.}~\ref{tab:uea_statistics} illustrates the diversity: training set sizes range from 12 (StandWalkJump, comprising 3 classes with only 4 samples per class, constituting a 3-way, 4-shot learning task) to 30,000 (InsectWingbeat, characterized by abundant training samples). Consequently, we conduct correlation analysis on the UEA datasets focusing on these three data characteristics and show the findings in \textbf{Fig.}~\ref{fig:data_char}.
+
+As depicted in (a) of \textbf{Fig.}~\ref{fig:data_char}, MMFA exhibits a high effect size on performance improvement with smaller training sets. This observation suggests that MMFA excels in achieving higher few-shot performance.
+
+A slight negative correlation exists between classification performance improvement effect size and dataset dimensionality, which shows MMFA outperforms more significantly on low dimensional datasets, showcasing MMFA's strong generalization effects that avoid overfitting with certain patterns with limited input features.
+
+Conversely, positive correlations between effect size and time series length indicate MMFA's stronger adaptability to longer time series than baselines. However, a limitation is that MMFA struggles with shorter time series (e.g., PenDigits datasets with $\text{length} = 8$), evident in lower performance across classification and clustering tasks. This limitation may stem from the transforms nature, requiring optimal performance from a time series of specific lengths.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{rala.pdf}
+    \caption{\textbf{Correlation plot} illustrating the relationships between Cohen's d effect sizes of performance improvement made by MMFA on 30 UEA datasets and characteristics of the datasets, i.e., training size, time series dimensionality, and time length. Logarithmic transforms are employed to enhance the linearity of the data.}
+    \label{fig:data_char}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{sfa.pdf}\label{img:sfa}
+    \caption{\textbf{Test set performance of pre-trained Longformer v.s Longformer trained from scratch.} In addition to raw time series and its encoder, we only choose SFA and pre-trained or non-pre-trained Longformer as the composition for transform and neural encoder, which are demonstrated in~\ref{tab:TFpairs} on SelfRegulationSCP2 and UWaveGestureLibrary dataset. It is shown in the figure that pre-trained Longformer finally gains much higher performance.}
+    \label{fig:sfa}
+\end{figure}
+
+\begin{researchq}
+How does the utilization of pretraining impact unsupervised time series representation learning compared to non-pre-trained models?
+\end{researchq}
+
+We conducted experiments comparing the performance of a pre-trained Longformer model against a non-pre-trained one. Initially, the time series data was transformed into symbolic word bags. Our approach aimed to assess how pretraining via the Word-Word Masking (WWM) task, influenced unsupervised time series representation learning.
+
+The findings show that pretraining finally boosts performance compared to non-pre-trained models. Despite the slower convergence of the pre-trained Longformer model shown in \textbf{Fig.}~\ref{fig:sfa}, it ultimately outperformed the non-pre-trained version by a wide margin. This performance boost is probably due to the BERT encoder's capacity to identify patterns between the WWM-pre-trained corpus and symbolic features from time series data. Overall, these results highlight the value of pretraining in enhancing the extraction of meaningful representations from time series data.
+
+
+\begin{researchq}
+    Ablation (Ab) and leave one out (LOO) study.
+\end{researchq}
+According to Table~\ref{ablation}, more transformations lead to better performance and lower variation in the magnitude of the overall effect. This is the evidence for the robustness of the model.
+
+\begin{table}[h]
+    \centering
+    \caption{Ablation (Ab) and leave one out (LOO) study.}\label{ablation}
+    \resizebox{0.8\linewidth}{!}{\begin{tabular}{lcccccccccc}
+    \toprule
+    Dataset & CGau2 & RP & GADF & DFT & WEASEL & CGau2-loo & RP-loo & GADF-loo & DFT-loo & WEASEL-loo \\
+    \midrule
+    ArticularyWordRecognition & 0.983 & 0.983 & 0.980 & 0.980 & 0.980 & 0.983 & 0.980 & 0.983 & 0.987 & 0.983 \\
+    AtrialFibrillation & 0.533 & 0.533 & 0.533 & 0.467 & 0.467 & 0.533 & 0.533 & 0.533 & 0.533 & 0.533 \\
+    BasicMotions & 1.000 & 1.000 & 1.000 & 1.000 & 1.000 & 1.000 & 1.000 & 1.000 & 1.000 & 1.000 \\
+    CharacterTrajectories & 0.991 & 0.987 & 0.987 & 0.991 & 0.989 & 0.990 & 0.991 & 0.988 & 0.990 & 0.991 \\
+    Cricket & 0.958 & 0.944 & 0.958 & 0.944 & 0.958 & 0.972 & 0.972 & 0.944 & 0.958 & 0.972  \\
+    DuckDuckGeese & 0.300 & 0.360 & 0.340 & 0.340 & 0.360 & 0.320 & 0.300 & 0.280 & 0.340 & 0.460 \\
+    EigenWorms & 0.580 & 0.550 & 0.557 & 0.595 & 0.557 & 0.626 & 0.626 & 0.588 & 0.580 & 0.580 \\
+    Epilepsy & 0.964 & 0.942 & 0.978 & 0.957 & 0.964 & 0.957 & 0.971 & 0.971 & 0.964 & 0.971 \\
+    EthanolConcentration & 0.449 & 0.479 & 0.479 & 0.475 & 0.426 & 0.616 & 0.620 & 0.631 & 0.601 & 0.643 \\
+    ERing & 0.956 & 0.959 & 0.952 & 0.956 & 0.956 & 0.952 & 0.948 & 0.948 & 0.944 & 0.956 \\
+    FaceDetection & 0.564 & 0.570 & 0.562 & 0.564 & 0.576 & 0.575 & 0.573 & 0.567 & 0.574 & 0.568 \\
+    FingerMovements & 0.510 & 0.490 & 0.520 & 0.540 & 0.530 & 0.580 & 0.590 & 0.590 & 0.570 & 0.550 \\
+    HandMovementDirection & 0.405 & 0.432 & 0.432 & 0.432 & 0.446 & 0.446 & 0.392 & 0.419 & 0.432 & 0.486 \\
+    Handwriting & 0.487 & 0.500 & 0.496 & 0.492 & 0.489 & 0.474 & 0.485 & 0.476 & 0.481 & 0.487 \\
+    Heartbeat & 0.722 & 0.741 & 0.722 & 0.732 & 0.737 & 0.707 & 0.722 & 0.741 & 0.732 & 0.722 \\
+    InsectWingbeat & 0.262 & 0.425 & 0.466 & 0.466 & 0.290 & 0.262 & 0.425 & 0.466 & 0.466 & 0.290 \\
+    JapaneseVowels & 0.892 & 0.895 & 0.886 & 0.886 & 0.895 & 0.905 & 0.897 & 0.900 & 0.908 & 0.889 \\
+    Libras & 0.872 & 0.872 & 0.872 & 0.872 & 0.872 & 0.889 & 0.878 & 0.883 & 0.894 & 0.883 \\
+    LSST & 0.607 & 0.600   & 0.601 & 0.603 & 0.599 & 0.593 & 0.603 & 0.595 & 0.607 & 0.601 \\
+    MotorImagery & 0.510 & 0.520 & 0.640 & 0.630 & 0.610 & 0.620 & 0.590 & 0.600 & 0.590 & 0.590 \\
+    NATOPS & 0.817 & 0.839 & 0.833 & 0.822 & 0.817 & 0.856 & 0.811 & 0.844 & 0.828 & 0.828 \\
+    PenDigits & 0.984 & 0.985 & 0.985 & 0.985 & 0.986 & 0.984 & 0.985 & 0.986 & 0.986 & 0.985 \\
+    PEMS-SF & 0.809 & 0.798 & 0.798 & 0.803 & 0.798 & 0.803 & 0.809 & 0.809 & 0.809 & 0.809 \\
+    PhonemeSpectra & 0.241 & 0.236 & 0.245 & 0.236 & 0.245 & 0.233 & 0.222 & 0.228 & 0.232 & 0.225 \\
+    RacketSports & 0.855 & 0.862 & 0.855 & 0.882 & 0.855 & 0.895 & 0.888 & 0.901 & 0.901 & 0.888 \\
+    SelfRegulationSCP1 & 0.782 & 0.785 & 0.785 & 0.785 & 0.782 & 0.819 & 0.816 & 0.812 & 0.816 & 0.795 \\
+    SelfRegulationSCP2 & 0.467 & 0.539 & 0.472 & 0.472 & 0.456 & 0.506 & 0.506 & 0.517 & 0.500 & 0.483 \\
+    SpokenArabicDigits & 0.980 & 0.983 & 0.981 & 0.977 & 0.978 & 0.984 & 0.983 & 0.980 & 0.985 & 0.985 \\
+    StandWalkJump & 0.533 & 0.533 & 0.533 & 0.533 & 0.467 & 0.400 & 0.533 & 0.533 & 0.533 & 0.533 \\
+    UWaveGestureLibrary & 0.912 & 0.916 & 0.912 & 0.916 & 0.916 & 0.912 & 0.912 & 0.916 & 0.906 & 0.916 \\
+    \midrule
+    \textbf{Average Effect Size} & -0.368 & -0.132 & -0.239 & -0.208 & -0.256 & 0.091 & 0.113 & 0.203 & 0.443 & 0.352 \\
+    \bottomrule
+    \end{tabular}}
+    \label{tab:performance_metrics}
+\end{table}
+    
+
+Transforms show non-additive effects. RP and the DFT show higher performance. RP contributes more independently to performance improvements. The insignificance of DFT in the LOO study suggests that it may be represented by or diminishing other jointly aligned transforms. CWT with CGau2 shows less significance but higher effects in the LOO study.
+
+\begin{researchq}
+Sensitivity analysis for $\alpha$, $\beta$ and $\gamma$ in the trainin objective.
+\end{researchq}
+
+According to \textbf{Tab.}~\ref{tab:alpha_sen} and \textbf{Tab.}~\ref{tab:beta_sen}, the accuracy demonstrates moderate sensitivity to parameter variations, with optimal $alpha$=10.0 for SelfRegulationSCP2 (0.544) and $alpha$=0.1 for Heartbeat (0.732).  For $\beta=\gamma$ parameters, both datasets achieve peak performance at $\beta=\gamma$=0.1/10.0 (Heartbeat: 0.732) and $\beta=\gamma$=10.0/25.0 (SelfRegulationSCP2: 0.544), suggesting parameter robustness in mid-to-high ranges, which encourages larger punishment of forbidding orthogonality of the representations.
+
+\begin{table}[htbp]\label{tab:alpha_sen}
+    \centering
+    \caption{Accuracy comparison with different $\alpha$ values.}
+    \label{tab:results}
+    \resizebox{0.6\linewidth}{!}{\begin{tabular}{l *{5}{c}}
+    \toprule
+    Dataset & $\alpha=0.0$ & $\alpha=0.1$ & $\alpha=1.0$ & $\alpha=10.0$ & $\alpha=25.0$ \\
+    \midrule
+    SelfRegulationSCP2     & 0.528 & 0.528 & 0.528 & 0.544 & 0.533 \\
+    Heartbeat & 0.712 & 0.732 & 0.712 & 0.722 & 0.712 \\
+    \bottomrule
+    \end{tabular}}
+\end{table}
+
+\begin{table}[htbp]\label{tab:beta_sen}
+    \centering
+    \caption{Accuracy comparison with different $\beta=\gamma$ values.}
+    \label{tab:beta_results}
+    \resizebox{0.7\linewidth}{!}{\begin{tabular}{l *{5}{c}}
+    \toprule
+    Dataset & $\beta=\gamma=0.0$ & $\beta=\gamma=0.1$ & $\beta=\gamma=1.0$ & $\beta=\gamma=10.0$ & $\beta=\gamma=25.0$ \\
+    \midrule
+    SelfRegulationSCP2       & 0.539 & 0.539 & 0.528 & 0.544 & 0.544 \\
+    Heartbeat  & 0.717 & 0.732 & 0.722 & 0.732 & 0.722 \\
+    \bottomrule
+    \end{tabular}}
+\end{table}
+
+
+
+
+% \begin{researchq}
+%     Computational overhead.
+% \end{researchq}
+
+
+% As a differentiable search process of a combination of transform properties as inductive bias, this could still be seen as effective compared to other search algorithms that can not benefit from parallelism.
+
+% Backprop complexity with $B$ denoting individual encoding complexity.
+% \[
+% O \left( N \left( F_m + \sum_{i=1}^{k} F_i \right) + kND^2 + N \left( B_m + \sum_{i=1}^{k} B_i \right) \right)
+% \]
+
+
+
+% \begin{table}[h]
+%     \centering
+%     \caption{s/ep with varying \# of channels on DuckDuckGeese dataset.}
+%     \resizebox{.4\linewidth}{!}{\begin{tabular}{lccccc}
+%     \toprule
+%     Model & 20 & 40 & 60 & 80 & 100 \\
+%     \midrule
+%     MMFA & 13.712 & 13.521 & 14.945 & 15.336 & 13.915 \\
+%     TS2Vec & 2.844 & 3.196 & 2.717 & 3.445 & 3.502 \\
+%     T-Loss & 10.516 & 9.490 & 10.659 & 10.635 & 10.212 \\
+%     TS-TCC & 3.870 & 4.074 & 3.397 & 3.479 & 4.956 \\
+%     TST & 0.755 & 0.883 & 0.755 & 1.358 & 1.151 \\
+%     CSL & 1.194 & 1.465 & 1.582 & 1.829 & 2.249 \\
+%     \bottomrule
+%     \end{tabular}}
+%     \label{tab:performance_comparison_2}
+% \end{table}
+
+
+% \begin{table}[h]
+%     \centering
+%     \caption{s/ep with varying length on EigenWorms dataset.}
+%     \resizebox{.4\linewidth}{!}{\begin{tabular}{lcccc}
+%     \toprule
+%     Model & 300 & 600 & 900 & 1200 \\
+%     \midrule
+%     MMFA & 6.141 & 6.222 & 10.275 & 11.761 \\
+%     TS2Vec & 2.791 & 2.886 & 3.823 & 4.122 \\
+%     T-Loss & 9.150 & 10.601 & 9.954 & 9.299 \\
+%     TS-TCC & 2.044 & 1.904 & 2.764 & 4.424 \\
+%     TST & 0.413 & 0.514 & 1.073 & 1.038 \\
+%     CSL & 1.059 & 1.275 & 1.573 & 1.678 \\
+%     \bottomrule
+%     \end{tabular}}
+%     \label{tab:performance_comparison}
+% \end{table}
+
+
+
+\section{Proofs of Theories}
+
+\subsection{\textbf{Theorem}~\ref{the:seman_sim}: Equivalence Between Eigenvalues and Distance Reduction of Spectral Embeddings.}\label{proof:eq}
+
+
+\begin{proof}
+    
+We begin by expanding the expected squared difference:
+
+\begin{equation}
+\begin{aligned}
+& \mathbb{E}_{(x, x^\prime)\sim p_{\text{\textit{sim}}}} [(f(x) - f(x^\prime))^2] \\
+& = 2\mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f(x)^2] - 2\mathbb{E}_{(x, x^\prime)\sim p_{\text{\textit{sim}}}}[f(x)f(x^\prime)] \\
+&  \\ & \text{Expand the second term.} \\ \\
+& =  2\mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f(x)^2] \\ 
+& \mathbb{E}_{x \sim p^\prime_{\text{\textit{data}}}, x^\prime \sim p_{\text{\textit{data}}}^\prime}[f(x) \int_{x^\prime} \frac { \frac 1 k p_{T_{(x)}, T_{(x^\prime)}}(x, x^\prime)} {p_{\text{\textit{data}}}^\prime(x)} f(x^\prime) dx^\prime] \\
+&  \\ & \text{According to the eigenfunction property.} \\ \\
+& = 2\mathbb{E}{x \sim p_{\text{\textit{data}}}^\prime}[f(x)^2] - \underbrace{2\mathbb{E}{x \sim p_{\text{\textit{data}}}^\prime}[(1-\lambda) f(x)^2]}_{\text{According to Eq~\ref{eq:eigen}.}} \\
+& = 2\lambda\mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f(x)^2]
+\end{aligned}
+\end{equation}
+
+Thus, we have established the desired relationship:
+
+\begin{equation}
+\begin{aligned}
+\mathbb{E}_{(x, x^\prime)\sim p_{\text{\textit{sim}}}} [(f(x) - f(x^\prime))^2]
+& = 2\lambda\mathbb{E}{x \sim p_{\text{\textit{data}}}^\prime}[f(x)^2]
+\end{aligned}
+\end{equation}
+
+
+\end{proof}
+
+
+\subsection{\textbf{Theorem}~\ref{the:inv_est}: Multi-modal Invariance Estimation.}\label{proof:inv}
+
+\begin{proof}
+The proof of this theorem follows from the established inequalities detailed in Inequation~\ref{eq:invprime_prof}.
+
+\begin{equation}
+\begin{aligned}\label{eq:invprime_prof}
+        \mathcal{L}_{inv}^\prime(Z) & = 
+         \frac{1}{Nk(k + 1)}\sum_{i=1}^N(2\sum_{m=1}^k||z^{(0)}_i-z^{(m)}_i||^2_2 \\
+        & + \sum_{\substack{m=1, n=1 \\ m \neq n}}^k||z^{(m)}_i - z^{(n)}_i||^2_2) \\
+        & \leq \frac{1}{Nk(k + 1)}\sum_{i=1}^N[2\sum_{m=1}^k||z^{(0)}_i-z^{(m)}_i||^2_2 \\
+        & + \sum_{\substack{m=1, n=1 \\ m \neq n}}^k(\underbrace{||z^{(0)}_i - z^{(m)}_i||^2_2+||z^{(0)}_i - z^{(n)}_i||^2_2)}_{\text{\textit{Triangle inequation.}}}] \\
+        & = \frac{2}{N(k+1)} \sum_{i=1}^N\sum_{m=1}^k ||z^{(0)}_i - z^{(m)}_i||^2_2
+\end{aligned}
+\end{equation}
+\end{proof}
+
+
+\subsection{\textbf{Theorem}~\ref{the:orth}: Orthogonality of Eigenfunction-Based Representations.}
+
+\begin{proof}
+
+
+
+When we have the $n$ dimensional matrice $(D-w)$ which has finite rank, $||(D-w) - \mathbb{L}|| \xrightarrow{n \to \infty} 0 $ in an approximation sense. Thus, $\mathbb{L}$ is a compact operator. Therefor $\mathbb{L}=\sum_{i=1}^\infty \lambda_i \mathbb{E}_{x\sim p_{\text{data}}^\prime}[\cdot f_i(x)] f_i(x)$. For all $i \in [d_z] $, we have $\lambda_i \neq 0 $,  $ \mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f_i(x)^2] = 1$. We prove that a set of $d_z$ eigenfunctions exists that are orthogonal to each other. The operator is symmetric.
+
+\begin{equation}\label{eq:symetric}
+    \mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[\mathbb{L}(f_i)(x) \cdot f_j(x)] = \mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f_i(x) \cdot \mathbb{L}(f_j)(x)]
+\end{equation}
+
+
+According to the definition of eigenfunction, we have the equation below.
+
+\begin{equation}\label{eq18}
+    \lambda_i \mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f_i(x) \cdot f_j(x)] =  \lambda_j \mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f_i(x) \cdot f_j(x)]
+\end{equation}
+
+According to Eq.~\ref{eq18}, for any $\lambda_i \neq \lambda_j$ we have:
+\begin{equation}
+\begin{aligned}
+     &   \forall i\neq j, \mathbb{E}_{x \sim p_{\text{\textit{data}}}^\prime}[f_i(x) \cdot f_j(x)] = 0
+\end{aligned}
+\end{equation}
+
+When we have:
+
+\begin{equation}
+    \mathcal{S}_{\lambda} = \{f | \mathbb{L}(f)=\lambda f\} \ \ \text{dim}(\mathcal{S}_{\lambda}) \geq 2
+\end{equation}
+
+This generates a linear space.
+
+\begin{equation}
+\begin{aligned}
+    & \mathbb{L}(ah + bg) = \mathbb{L}(ah) + \mathbb{L}(bg) = \lambda(ah + bg)  \\
+    & \ \ \ \ \ \ \  a,b\in \mathbb{R} \ \ h,g \in \mathcal{S}_{\lambda} 
+\end{aligned}
+\end{equation}
+
+We have $g_1 \in \mathcal{S}_\lambda$. Then, we remove the subspace spanned by $g_1$. Now we consider the space $\mathcal{S}^{\text{dim}(\mathcal{S}_{\lambda}) - 1} = \text{span}(\{g_1\})^\perp \cap \mathcal{S}_{\lambda}$. Then we have $g_i \in \mathcal{S}^{\text{dim}(\mathcal{S}_{\lambda}) - i + 1}$ where $\mathcal{S}^{\text{dim}(\mathcal{S}_{\lambda}) - i + 1}= \text{span}(\{g_j\}_{i-1})^\perp\cap \mathcal{S}_{\lambda}$. Finally, we have all the $\text{dim}(\mathcal{S}_{\lambda})$ orthogonal eigenfunctions with their eigenvalues equal to $\lambda$.
+
+Ideally, we design an algorithm to learn $d_z$ of all the orthogonal eigenfunctions with the smallest eigenvalues for representations.
+
+\end{proof}
+
+\subsection{Spectral Selection Mechanism of Linearly Degenerated MMFA (LD-MMFA)}
+
+
+
+This chapter establishes three foundational theorems for MMFA under linear degeneracy constraints. Each theorem provides a closed-form spectral solution that reconciles empirical distributions across transformed feature spaces while preserving orthogonality. Rigorous derivations and eigenvalue selection criteria are explicitly analyzed. We first briefly review the configuration constraints and training objectives of linear degenerated MMFA. Then we introduce the gradually deduced closed-form solutions for the simple to complex construction of the training objectives. 
+
+\paragraph{Brief Introduction to LD-MMFA and Unsupervised Objective.}\label{sec:recover}
+
+In linearly degenerated MMFA, the core objective is to learn a linear projection \( Z = XW \) that maps standardized high-dimensional data \( X \in \mathbb{R}^{n \times d} \) into a low-dimensional latent space \( Z \in \mathbb{R}^{n \times k} \), while preserving critical statistical structures across multiple transformed feature distributions. This unsupervised framework operates without labeled data, relying instead on harmonizing empirical distributions measured from diverse feature transformations (e.g., \( F_1, F_2, F_3 \)) applied to \( X \). 
+
+
+The optimization problem is designed jointly.
+\underline{(1) Minimize Projection Complexity}: Penalize the Frobenius norm \( \|W\|_F^2 \) to select most significant spectrums to enhance generalizability.  
+\underline{(2) Align Transformed Features}: Reduce discrepancies \( \|XW - F_i W_i'\|_F^2 \) between \( Z \) and each transformed view \( F_i W_i' \).  
+\underline{(3) Enforce Orthogonality}: Constrain \( Z^TZ= W^\top X^\top X W = I_k \) and \( W_i'^\top F_i^\top F_i W_i' = I_k \) to ensure non-redundant, unit-covariance latent features.  
+
+In the theorems below, we compose these objectives and constraints, deduce their close-form solutions, and find out each spectral selection mechanism.
+
+
+    
+\begin{lemma}\label{lem:PCA}LD-MMFA Without Transform Alignment Recovers PCA.
+
+The solution recovers the scaled PCA’s principal directions. We use \( W^\top X^\top X W = I_k \) to forces orthogonality, but minimizing \( \|W\|_F^2 \) penalizes scaling inversely to variance. Thus, directions with maximal variance (largest \( \lambda_i \)) dominate, as they require minimal scaling to satisfy the orthogonality constraint.
+
+The learning objective of LD-MMFA without transform alignment can be written as:
+
+\begin{equation}
+    \min_{W} \mathcal{L} = \|W\|_F^2 \quad \text{s.t.} \quad W^\top X^\top X W = I_k.
+\end{equation}
+
+Closed-form solution:  
+
+\begin{equation}    
+    W_{\text{opt}} = V_k \Lambda_k^{-1/2}, \quad \min_{W} \mathcal{L} = \sum_{i = 1}^k \lambda_{i}^{-1} \quad \text{s.t.} \quad W^\top X^\top X W = I_k.
+\end{equation}
+
+$\lambda_{X,i}$ is the $i$th largest singular value of $X^TX$.
+
+
+\end{lemma}
+
+
+\begin{proof}
+
+To enforce the constraint \(W^\top X^\top X W = I_k\), we introduce a symmetric Lagrange multiplier matrix \(\Lambda \in \mathbb{R}^{k \times k}\) and construct the Lagrangian:
+
+\begin{equation}
+    \mathcal{L}(W, \Lambda) = \text{tr}(W^\top W) - \text{tr}\left(\Lambda^\top (W^\top X^\top X W - I_k)\right).    
+\end{equation}
+
+Here, the trace operator \(\text{tr}(\cdot)\) is used to reformulate the Frobenius norm and constraints into scalar forms suitable for differentiation.
+
+
+Taking the derivative of \(\mathcal{L}\) with respect to \(W\) and setting it to zero yields:
+
+\begin{equation}
+\begin{aligned}
+ & \frac{\partial \mathcal{L}}{\partial W} = 2W - 2 X^\top X W \Lambda = 0. \\
+& \Rightarrow W = X^\top X W \Lambda. \\
+& \Rightarrow W^\top W = W^\top X^\top X W \Lambda = I_k \Lambda . \\
+& \Rightarrow  \Lambda = W^\top W. \\
+& \Rightarrow   W = X^\top X W (W^\top W). \\
+& \Rightarrow  X^\top X W = W (W^\top W)^{-1}.
+\end{aligned}
+\end{equation}
+
+
+
+To interpret this, let \(W = [w_1, \dots, w_k]\) with columns \(w_i \in \mathbb{R}^d\). This implies that each column \(X^\top X w_i\) must lie within the column space of \(W\). Specifically, for each \(i\):
+\begin{equation}
+    X^\top X w_i = \sum_{j=1}^k c_{ji} w_j.    
+\end{equation}
+where \(c_{ji}\) are entries of the matrix \((W^\top W)^{-1}\). This indicates that the subspace \(\text{Span}(w_1, \dots, w_k)\) is invariant under the linear transformation defined by \(X^\top X\).
+
+For symmetric matrices like \(X^\top X\), the Spectral \textbf{Theorem} guarantees that any invariant subspace is spanned by eigenvectors of \(X^\top X\). Therefore, the columns of \(W\) must be linear combinations of \(X^\top X\)'s eigenvectors.
+
+
+Assume there exists another solution \( W' \), whose columns are composed of non-trivial combinations of multiple eigenvectors. According to the constraint \( W'^\top X^\top X W' = I_k \), the columns of \( W' \) must satisfy:  
+\begin{equation}
+w_i'^\top X^\top X w_j' = \delta_{ij}.
+\end{equation}
+If \( w_i' \) contains different eigenvectors, e.g., \( w_i' = a_{i1}v_1 + a_{i2}v_2 \) (where \( v_1, v_2 \) are eigenvectors of \( X^\top X \)), then:  
+\begin{equation}
+    w_i'^\top X^\top X w_j' = a_{i1}a_{j1}\lambda_1 + a_{i2}a_{j2}\lambda_2 = \delta_{ij}.
+\end{equation}  
+For \( i \neq j \), this requires:  
+\begin{equation}
+    a_{i1}a_{j1}\lambda_1 + a_{i2}a_{j2}\lambda_2 = 0.    
+\end{equation}
+This equation can only hold if \( a_{i1}a_{j1} = a_{i2}a_{j2} = 0 \). This forces \( w_i' \) and \( w_j' \) to exclusively contain single eigenvectors (i.e., either \( a_{i1} = a_{j1} = 0 \) or \( a_{i2} = a_{j2} = 0 \)). Consequently, the only feasible solution is one where each \( w_i' \) corresponds to a scaled version of a single eigenvector, and distinct columns correspond to distinct eigenvectors.  
+
+
+Thus we decompose \( X^\top X \) into its spectral components: \( X^\top X = V \Lambda V^\top \), where \( V \) is an orthogonal matrix of eigenvectors, and \( \Lambda = \text{diag}(\lambda_1, \dots, \lambda_d) \) contains eigenvalues sorted as \( \lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d \).  
+
+We denote $Q$ as introduced parameters to analyze the spectral selection process, by expressing \( W \) as \( W = V Q \), the constraint simplifies to \( Q^\top \Lambda Q = I_k \). The objective \( \|W\|_F^2 = \text{tr}(Q^\top Q) \) then becomes equivalent to minimizing \( \text{tr}(Q^\top Q) \) under the diagonalized constraint \( Q^\top \Lambda Q = I_k \). To satisfy this, \( Q \) must take the form \( Q = \Lambda_k^{-1/2} \), where \( \Lambda_k \) is the submatrix of \( \Lambda \) corresponding to the largest \( k \) eigenvalues.  
+
+Minimizing \( \text{tr}(Q^\top Q) = \text{tr}(\Lambda_k^{-1}) \) directly penalizes small eigenvalues. Selecting the largest eigenvalues \( \lambda_1, \dots, \lambda_k \) minimizes this penalty, as their reciprocals \( 1/\lambda_i \) are the smallest. Geometrically, directions with higher variance (larger \( \lambda_i \)) require less scaling to satisfy \( W^\top X^\top X W = I_k \), aligning with PCA’s variance-maximization principle.  
+
+Closed-form solution:  
+\begin{equation}
+    W_{\text{opt}} = V_k \Lambda_k^{-1/2}, \quad \min_{W} \|W\|_F^2 = \sum_{i = 1}^k \lambda_{i}^{-1} \quad \text{s.t.} \quad W^\top X^\top X W = I_k.
+\end{equation}  
+where \( V_k \) are the top-\(k \) eigenvectors of \( X^\top X \), and \( \Lambda_k \) contains the corresponding eigenvalues. The solution recovers PCA’s principal directions scaled inversely by the square roots of their variances.  
+    
+\end{proof}
+ 
+
+\begin{lemma}\label{lem:CCA}LD-MMFA Selects Spectral Consensus with Single Transformed Feature.
+
+
+After solving LD-MMFA with single transformed feature $F = T(X)$, larger singular values \( \sigma_i \) of the whitened cross-covariance matrix $\bar{X}^T \bar{F} = (X V_X\Lambda_X^{-1/2})^TFV_F\Lambda_F^{-1/2}$ signify cross-view alignment. The solution projects \( X \) and \( F \) onto directions of maximal cross-view correlation, scaled by their respective whitening matrices. This balances regularization penalties while aligning the transformed features.  
+
+
+The learning objective of LD-MMFA with single transform alignment can be written as:
+
+\begin{equation}
+    \min_{W, W'} \mathcal{L} = \|W\|_F^2 + \|W'\|_F^2 + \|XW - FW'\|_F^2 \quad \text{s.t.} \quad W^\top X^\top X W = W'^\top F^\top F W' = I_k.
+\end{equation}  
+
+Closed-Form Solution:  
+\begin{equation}
+\begin{aligned}
+    & W_{\text{opt}} = V_X\Lambda_X^{-1/2} U_k, \quad W'_{\text{opt}} = V_F\Lambda_F^{-1/2} V_k, \\
+    & \min_{W, W'} \mathcal{L} = \sum_{i=1}^{k} ( \frac{1}{\lambda_{X,i}} + \frac{1}{\lambda_{F,i}} - 2 \sigma_i ) + 2k \quad \text{s.t.} \quad W^\top X^\top X W = W'^\top F^\top F W' = I_k.
+\end{aligned}
+\end{equation}  
+
+
+where \( U_k, V_k \) are the top-\(k \) singular vectors of \( C = V_X\Lambda_X^{-1/2} X^\top F V_F\Lambda_F^{-1/2} \). And $\lambda_{X,i}, \lambda_{F,i}$ and $\sigma_i$ are the $i$th largest singular value of $X^TX, F'^\top F'$ and $\bar{X}^T \bar{F}$.
+
+This optimization problem recovers canonical correlation analysis (CCA)~\cite{thompson2000canonical} for LD-MMFA and deep/kernel canonical correlation analysis (KCCA)~\cite{fukumizu2007statistical} for MMFA.
+
+\end{lemma}
+
+\begin{proof}
+    
+
+The constraints \( W^\top X^\top X W = I_k \) and \( W'^\top F^\top F W' = I_k \) suggest whitening both \( X \) and \( F \). Define the whitened matrices \( \tilde{X} = X V_X\Lambda_X^{-1/2} \) and \( \tilde{F} = F V_F\Lambda_F^{-1/2} \), which satisfy \( \tilde{X}^\top \tilde{X} = I \) and \( \tilde{F}^\top \tilde{F} = I \). 
+
+We still denote $Q$ as the mapping for spectral selection. Substituting \( W = V_X\Lambda_X^{-1/2} Q \) and \( W' = V_F\Lambda_F^{-1/2} Q' \), the constraints reduce to \( Q^\top Q = I_k \) and \( Q'^\top Q' = I_k \).  
+
+The objective then becomes:  
+\begin{equation}
+\begin{aligned}
+& \| \tilde{X} Q - \tilde{F} Q' \|_F^2 + \text{tr}(Q^\top \Lambda_X^{-1} Q) + \text{tr}(Q'^\top \Lambda_F^{-1} Q') \\
+&  = \text{tr}\left(Q^\top \Lambda_X^{-1} Q\right) + \text{tr}\left(Q'^\top \Lambda_F^{-1} Q'\right) - 2 \text{tr}(Q^\top C Q') + 2k.
+\end{aligned}
+\end{equation}  
+
+Expanding the squared Frobenius norm and ignoring constant terms, this simplifies to maximizing \( \text{tr}(Q^\top \tilde{X}^\top \tilde{F} Q') \). The cross-term \( \tilde{X}^\top \tilde{F} \) defines the whitened cross-covariance matrix \( C = \tilde{X}^\top \tilde{F} \).  
+
+To maximize \( \text{tr}(Q^\top C Q') \), we apply the Singular Value Decomposition (SVD) to \( C \), yielding \( C = U \Sigma V^\top \), where \( U \) and \( V \) are orthogonal matrices, and \( \Sigma \) contains singular values \( \sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_{\min(d,m)} \). The optimal \( Q \) and \( Q' \) are the first \( k \) columns of \( U \) and \( V \), respectively.  
+
+
+The trace \( \text{tr}(Q^\top C Q') = \sum_{i=1}^k \sigma_i \) is maximized when \( Q \) and \( Q' \) align with the singular vectors corresponding to the largest \( \sigma_i \). Larger singular values represent stronger correlations between the whitened \( X \) and \( F \), minimizing the residual \( \|XW - FW'\|_F^2 \).  
+
+Closed-Form Solution:  
+\begin{equation}
+\begin{aligned}
+& W_{\text{opt}} = V_X\Lambda_X^{-1/2} U_k, \quad W'_{\text{opt}} = V_F\Lambda_F^{-1/2} V_k, \\
+& \min_{W, W'} \mathcal{L} = \sum_{i=1}^{k} ( \frac{1}{\lambda_{X,i}} + \frac{1}{\lambda_{F,i}} - 2 \sigma_i ) + 2k \quad \text{s.t.} \quad W^\top X^\top X W = W'^\top F^\top F W' = I_k.
+\end{aligned}
+\end{equation}  
+
+where \( U_k, V_k \) are the top-\(k \) singular vectors of \( C = V_X\Lambda_X^{-1/2} X^\top F V_F\Lambda_F^{-1/2} \). The solution projects \( X \) and \( F \) onto directions of maximal cross-view correlation, scaled by their respective whitening matrices. This balances regularization penalties while aligning the transformed features.  
+\end{proof}
+
+    
+\begin{lemma}\label{lem:multiCCA}
+Multiview Alignment via Joint Cross-Covariance Spectrum.
+The concatenated matrix \( C \) encodes all pairwise correlations between \( X \) and each \( F_i \). Its SVD extracts a consensus subspace \( U_k \) in \( X \) that maximizes the total correlation with all \( F_i \)-views. Each \( V_{i,k} \) aligns \( F_i \) to this subspace. Larger singular values prioritize directions where \( X \) simultaneously explains multiple \( F_i \). The solution minimizes the total residual across all views while satisfying per-view orthogonality constraints.
+
+Optimization Problem:  
+\begin{equation}
+\begin{aligned}
+\min_{W, \{W_i'\}} \mathcal{L} = \|W\|_F^2 + \sum_{i=1}^p \left( \|W_i'\|_F^2 + \|XW - F_i W_i'\|_F^2 \right) \quad \text{s.t.} \quad W^\top X^\top X W = W_i'^\top F_i^\top F_i W_i' = I_k.
+\end{aligned}
+\end{equation}  
+Closed-Form Solution:  
+\begin{equation}
+\begin{aligned}
+& W_{\text{opt}} = V_X\Lambda_X^{-1/2} U_k, \quad W_{i,\text{opt}}' = V_{F_i}\Lambda_{F_i}^{-1/2} V_{i,k}, \\
+& \min_{W, W'} \mathcal{L} = \sum_{j=1}^{k} ( \frac{1}{\lambda_{X,j}} + \sum_{i=0}^p \frac{1}{\lambda_{F,i,j}} - 2 \sigma_j ) + 2k \quad \text{s.t.} \quad W^\top X^\top X W = W_i'^\top F_i^\top F_i W_i' = I_k.
+\end{aligned}
+\end{equation}  
+
+$\lambda_{X,j}, \lambda_{F,i,j}$ and $\sigma_j$ are the $j$th largest singular value of $X^TX, F_i'^\top F_i'$ and $\bar{X}^T \bar{F}$.
+
+\end{lemma}
+
+\begin{proof}
+
+
+where \( U_k \) and \( V_{i,k} \) are derived from the SVD of \( C = [\tilde{X}^\top \tilde{F}_1 \; \cdots \; \tilde{X}^\top \tilde{F}_p] \).
+
+Derivation:  
+Extending \textbf{Theorem} 2 to multiple views, we first whiten \( X \) and each \( F_i \):  
+\begin{equation}
+\begin{aligned}
+\tilde{X} = X V_X\Lambda_X^{-1/2}, \quad \tilde{F}_i = F_i V_{F_i}\Lambda_{F_i}^{-1/2}.
+\end{aligned}
+\end{equation} 
+Substituting \( W = V_X\Lambda_X^{-1/2} Q \) and \( W_i' = V_{F_i}\Lambda_{F_i}^{-1/2} Q_i' \), the constraints reduce to \( Q^\top Q = I_k \) and \( Q_i'^\top Q_i' = I_k \).  
+
+The objective simplifies to maximizing \( \sum_{i=1}^p \text{tr}(Q^\top \tilde{X}^\top \tilde{F}_i Q_i') \), which aggregates cross-view correlations. This is equivalent to maximizing \( \text{tr}(Q^\top C [Q_1'^\top \; \cdots \; Q_p'^\top]^\top) \), where \( C = [\tilde{X}^\top \tilde{F}_1 \; \cdots \; \tilde{X}^\top \tilde{F}_p] \).  
+
+Applying SVD to \( C \), we write \( C = U \Sigma [V_1^\top \; \cdots \; V_p^\top]^\top \), where \( U \) and each \( V_i \) are orthogonal. The optimal \( Q \) is the first \( k \) columns of \( U \), while each \( Q_i' \) corresponds to the first \( k \) columns of \( V_i \).  
+
+
+The concatenated matrix \( C \) captures all pairwise correlations between \( X \) and the transformed views \( F_i \). The SVD of \( C \) extracts a shared subspace in \( X \) (spanned by \( U_k \)) that maximizes the total correlation with all \( F_i \)-views. Each \( V_{i,k} \) aligns \( F_i \) to this subspace. Larger singular values prioritize directions where \( X \) simultaneously explains multiple \( F_i \).  
+
+The solution harmonizes multiple transformed views by projecting them onto a consensus subspace in \( X \), weighted by their joint cross-covariance spectrum. This minimizes the total residual across all views while preserving orthogonality constraints.  
+
+
+\end{proof}
+
+\subsection{Theorem~\ref{theorem:recover}: MMFA's recovery of KPCA and KCCA.}\label{sec:recoverk}
+
+The following proof demonstrates that under linear degeneracy constraints, MMFA recovers Kernel Principal Component Analysis (KPCA)~\cite{kpca} and Kernel Canonical Correlation Analysis (KCCA)~\cite{fukumizu2007statistical} when applied to kernel-mapped data. The linear solutions derived in \textbf{Lemmas} \ref{lem:PCA}–\ref{lem:multiCCA} generalize to their kernelized counterparts through the kernel trick, where input data \(X\) and transformed features \(F_i\) are implicitly mapped into reproducing kernel Hilbert spaces (RKHS).
+
+
+\begin{proof}
+When \(p = 0\) (no transformed features), we apply LD-MMFA to kernel-mapped data \(\Phi_X(X)W\) with \(p = 0\). According to \textbf{Lemma}~\ref{lem:PCA}, the solution to LD-MMFA reduces to KPCA,
+
+When aligning a single transformed feature \(\Psi_F(F)W'\) (kernel-mapped from another view \(F\)), we apply LD-MMFA to kernel-mapped data \(\Phi_X(X)W\) and \(\Phi_F(F)W'\) with \(p = 1\). According to \textbf{Lemma}~\ref{lem:CCA} the solution recovers KCCA, selecting directions of maximal correlation between kernel spaces.
+
+For multiple transformed features \(\{\Psi_{F,i}(F_i)W_{F,i}\}\), the solution aligns a consensus subspace across all kernel-induced views, according to \textbf{Lemma}~\ref{lem:multiCCA} generalizing multi-view KCCA.
+\end{proof}

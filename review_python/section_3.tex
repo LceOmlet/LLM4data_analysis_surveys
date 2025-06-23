@@ -1,0 +1,262 @@
+\section{PFMs Enhanced Systematic Optimization Methodologies}~\label{sec:methods}
+    
+In this chapter, we will explore how pretrained foundation models systematically optimize data analysis. From reasoning, accessibility of complex structural data and models, and data quality optimization, to automated machine learning, PLMs have demonstrated significant potential at every stage. Nevertheless, we also point out the current challenges and emphasize the importance of future research in algorithms, data quality, and system efficiency. Through these studies, we hope to drive data analysis systems toward becoming more efficient and robust.
+
+\subsection{PFM Enhance Reasoning}\label{sec:dsl}
+
+"The basis of all human culture is language, and mathematics is a special kind of linguistic activity." Arnold \& Manin (2000)
+
+Domain-specific language (DSL) refers to languages specifically designed for a specific application domain. It reflects specialization and abstraction of human understanding, improving problem-solving and communication. It narrow downs reasoning process into the most important and meaningful proposition space. Vapnik proves that a machine has only two mechanisms to learn, that are minimizing empirical loss and minimizing confidence interval~\cite{vapnik2019rethinking}. The latter commutes external propositional prior knowledge into learning. For every data analysis expert in any domain, reasoning about reality is a fundamental task, which plays an important role in every stage of data analysis. Till now, in domains like supply chain, legal, and financial field, it costs multiple years of training and experience accumulation for the experts to understand the objects and operations in a domain-specific language fully~\cite{garcia2010using}. 
+
+In this section we consider concepts about data analysis that scales with reasoning. First we introduce representation learning techniques which identify and encoding concepts and entities with symbols and geometric signatures, i.e., vectors or tensors, (\S~\ref{sec:representation}). Then we introduce categories of reasoning, which provides general tools for inference, planning and code generating (\S~\ref{sec:reasoning}). Finally, we discuss the management of solutions of methods with different structural properties with the evolution of a system and growing analysis demands by consolidation (\S~\ref{sec:consolidate_dsl}).
+
+
+\subsubsection{Representation learning of concepts.} \label{sec:representation}
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=0.65\textwidth]{logic.pdf} % 这里填入图片的路径
+  \caption{\textbf{Two kinds of reasoning.} (a) Deduction provides top-down reasoning that proves sufficiency between statements and conclusions, which generates special cases/samples according to universal principles and rules or hypotheses. (b) Induction provides bottom-up reasoning that proves the necessity between samples and conclusions, which approximate and conclude principles and rules from cases/samples. Other kinds of reasoning can be seen as compositions of these two kinds of reasoning while introducing inconsistencies and approximations to compromise consistency and completeness.}
+  \label{fig:logic}
+\end{figure*}
+
+Representation learning in a narrow sense refers to techniques like manifold learning which preserves the geometric shape of the original distribution in support of classification, regression, clustering, and data generation.~\cite{buchholzrobustness, feyposition} In a general sense, representation learning can be related to representation theories in the language of mathematics, which preserves morphisms and structures of categories, preserving symmetry and equivariance, providing algebraic tools, and enhancing optimization and presentation abilities~\cite{yuan2023power, blaauwbroekgraph2tac, HansenCF24}. 
+
+Representation learning provides us with tools to compress data and implement algorithms in a concise form, which can be seen as a new DSL. In terms of data compression, \cite{DeletangRDCGMGW24} has proven that language models can be seen as general compression algorithms, it shows that language models can perform lossless compression on images, audio, and videos, which can be far more efficient than conventional algorithms. \cite{GrandWBOLTA24} propose a code compressing and documenting method, LILO, based on PFMs, which can consolidate code into more reusable and readable forms. \cite{zhengprise} propose PRISE which is a compression algorithm for temporal actions made by agents, abstracting valid components into skills that can be seen as representing algorithms discovered from data. Using this, analysts can perform efficient and precise retrieval of both data and composable operations on them, \cite{KoziolekGHALE24} propose a retrieval argumentative method for control code of automated systems which bound to representations that supply to domain-specific standards. 
+
+The introduction of representable rules and principles makes it easy to leverage what is discovered from one set of data to analyze others~\cite{yuan2023power}. Analysts can easily transduce this explicit knowledge on demand. Causes and their effects can be found in the dataset leveraging causal or interventional representation learning in an interpretable and grounded way~\cite{ahuja2023interventional}. They negate existing goals of the analysis to create new goals that are more feasible. To systematically boost the ability of data analysis on more complex systems like code repositories~\cite{jain2024r2e}, disciplinary knowledge of specific domains, and their application fields, we need more foundational representation theories~\cite{yuan2023power} that PFMs can first bring in. 
+
+
+\subsubsection{Reasoning with domain-specific concepts}\label{sec:reasoning}
+
+
+
+
+Representation learning for DSL contributes significantly to the efficiency and quality of analysis and decision-making, emphasizing both inductive and deductive logic. Reasoning involves composing these representations toward a predefined goal, which not only induces evidence from datasets and adjusts the posterior but also deduces applicable rules to reach necessarily correct conclusions. 
+
+This section summarizes how PFMs apply to principles and conditions of induction and deduction in reasoning, making systematic enhancements in the field of data analysis. We introduce inductive reasoning which provides cogency from necessarily satisfied cases to general rules, and deductive reasoning which sufficiently produces special cases from general principles and evaluates the validity of existing statements.
+
+\paragraph{Principles of Induction.} Inductive reasoning involves deriving general principles from specific observations or instances of collected data. In finite or infinite deterministic systems, such as mathematical objects or physical laws, the inductive method can identify deterministic principles and rules with certainty. However, in stochastic systems — such as datasets with uncertainties, as discussed in \S~\ref{sec:data_quality} — we can only pursue hypotheses that are approximately correct. These hypotheses are subject to validation and may need to be revised as more data becomes available, which will be detailed in \S~\ref{sec:interpretability}.
+
+
+In real-world applications, successful inductive reasoning relies on several key principles:
+
+\underline{Completeness of representative sampling.} Ensuring that the data collected accurately and sufficiently reflects the population or phenomenon being studied. This reduces sampling bias and enhances the generalizability of the inductive conclusions~\cite{037little2019statistical}. PMFs can help to perform completeness checking by encoding an induction procedure into a satisfiability problem~\cite{ye2024satlm} which can be solved by SMT solvers, and finally guide the inductive steps with abductive style counterexamples~\cite{jha2023counterexample}. In a real-world scenario, full completeness can be not achievable, where all possible samples are discussed or covered by equivalent classes discussed. These inductions don't provide sufficient results for precisely correct results, which introduces statistics to produce PAC learning.
+    
+\underline{Consistency and robustness against errors.} High-quality data and resilience to errors are essential for reliable inductive reasoning. PFMs contribute by automating data cleaning and preprocessing tasks, such as handling missing values, correcting errors, and removing inconsistencies~\cite{ni2024iterclean, qi2024cleanagent}. This improves the accuracy of the induced rules and principles.
+    
+\underline{Compatible logical structures and sufficient prior} \\ \underline{knowledge.} Structures of the space where principles are to be searched should not be too small to contain the precise form. It should not be too large to identify these concepts with a limited number of cases. PFMs assist in identifying hidden patterns and relationships that might be overlooked using traditional methods~\cite{ma2023insightpilot, Dibia2023LIDAAT}. These logical structures can be leveraged to integrate existing domain knowledge to inform the inductive reasoning process. PFMs can merge multi-domain heterogeneous data and knowledge bases, enhancing the richness of the inductive models~\cite{Ellis2020DreamCoderGG, Tang2024WorldCoderAM}. This leads to more guided and consistent induction steps.
+    
+\underline{Well-defined goals.} Having clear inquiries with rigor synthesis, which is a proposition formed by integrating multiple possible choices, e.g., a thesis and its antithesis, for the inductive analysis ensures that the reasoning process is focused and relevant. PFMs can interpret natural language descriptions of goals and translate them into actionable analytical tasks~\cite{li2023resdsql, gu2023few}. Moreover, ensuring that hypotheses are falsifiable is essential for scientific rigor.
+
+By adhering to these principles, inductive reasoning becomes more robust and reliable. PFMs enhance this process by providing advanced tools for data management, pattern recognition, and knowledge integration. They effectively handle complexities such as heterogeneity, noise, and inconsistencies in real-world data~\cite{vos2022towards, deem}, thereby improving the completeness and consistency essential for sound inductive reasoning. This empowers analysts to derive meaningful insights and develop approximately correct hypotheses, even in the face of data imperfections and uncertainties. For
+
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{logic_system.pdf} % 这里填入图片的路径
+  \caption{\textbf{PFM-based reasoning algorithm.} (a) True statements can be produced by inconsistent reasoning due to high validity. E.g., $q$ is necessarily satisfied according to $p, p\rightarrow q$, which provides formal validity from classical logic. (b) Adjusting the expressiveness by approximation compromises the decidability and completeness of the reasoning algorithm. Essential factors for PFMs augmented reasoning lie in these mechanisms.}
+  \label{fig:logic_system}
+\end{figure*}
+
+
+\paragraph{Principles of deduction.} Deductive reasoning converts principles and axioms, i.e., symmetry or equivariance induced from data, into specific rules that reason about specific instances. Deductive reasoning provides the foundation for deriving necessarily correct conclusions from established principles. When applying deductive reasoning, it is necessary and sufficient to consider several fundamental principles. Reasoning based on deduction can be feasible and correct when the axioms are grounded. Local properties of successful deduction include soundness, which ensures the preconditions are correct and formal validity, which ensures the rules used are concise and unambiguous. Global properties include consistency, completeness, and ensuring that no contradictions exist in propositions, as well as all true statements can be proven using axioms and rules.
+
+\underline{Fulfilling local properties.} PFMs enhance deductive reasoning by assisting in formal reasoning-based methods, which are crucial for understanding analysis methods and the data to be analyzed and locally depend on formal validity and soundness of preconditions. For example, PFMs can generate formal proofs and Turing-complete formal languages and code~\cite{Li2024IsPB} which have high formal validity, improving the efficiency of problem-solving by constructing solutions that conform to nested and recursive logic~\cite{Khakhar2023PACPS}. This allows for more rigorous and complete analysis methods, helping users address a wide range of data quality issues and build bridges between data analysis problems and specific implementations to achieve precise and unambiguous results~\cite{qi2024cleanagent}. Moreover,~\cite {Li2024IsPB} have shown that PFMs can treat each inference as inductive and possibly correct in-context learning process, which also shows the ability for the discovery of concepts that would enhance soundness in real-world applications.
+
+However, challenges arise due to inherent limitations in logical systems, as highlighted by Gödel's incompleteness theorems, which state that any sufficiently expressive formal system cannot be both complete and consistent. This implies that when we enforce strict consistency in our logical frameworks, we may sacrifice completeness—the ability to derive all true statements. In the context of data analysis, imposing such strong constraints of absolute consistency might limit the system's capacity to reason about complex or contradictory data, potentially diminishing the depth and scope of analysis.
+
+\underline{Compromising of consistency.} To address this issue, some analysts introduce paraconsistent logic, a non-classical logic that tolerates contradictions without leading to triviality — where any statement becomes provable. This approach allows reasoning processes to continue effectively even in the presence of inconsistencies, which are common in real-world datasets due to noise, errors, and conflicting information~\cite{022batini2009methodologies}. By incorporating paraconsistent logic, PFMs can handle contradictory data more robustly, enhancing the reliability of analytical outcomes~\cite{037little2019statistical}.
+
+\underline{Compromising of completeness.} Practitioners must therefore balance between expressiveness—the ability of the logical system to represent complex concepts—and decidability—the feasibility of algorithmically determining the truth value of statements within the system. An overly expressive system may become undecidable, making it computationally impractical for analysis. PFMs contribute to achieving this balance by leveraging advanced reasoning capabilities that handle complex, expressive representations while maintaining computational efficiency~\cite{Pei2023CanLL, Wang2024TheoremLlamaTG}. This balance is crucial in designing logical systems for data analysis that are both powerful and practical, enabling more flexible and comprehensive analysis of complex datasets.
+
+Moreover, the robustness and stability of analytical models are essential for their reliable application in different environments~\cite{029dietterich1995overfitting}. PFMs contribute to enhancing the robustness and generalization ability of models by incorporating external logical knowledge, which is often hard to disclose from data distribution and challenging to obtain without domain expertise~\cite{031guyon2003introduction}. By leveraging mathematical derivations and formal proofs~\cite{wang2023large}, PFMs help analytical approaches achieve greater robustness and generalization performance, thereby strengthening deductive reasoning in data analysis.
+
+Reasoning reveals what's inside datasets with completeness and details, they can be composed to complex reasoning procedures like transductive learning. They can be used to analysis and manipulate biases of complex and black box models. PFMs helps us to revisit reasoning to generalize and scale the scope of data analysis.
+
+\subsubsection{Consolidation of DSL}\label{sec:consolidate_dsl}
+
+In support of reasoning, PFMs can perform as components of a family of logical systems, in which we can balance incompatible principles of complex systems — consistency and completeness. Representation learning and reasoning can enhance each other toward the goal of analysis. As an important part of organizing partial solutions, In terms of consolidation of DSLs, PFMs can be used as automated administrators of repositories and knowledge bases. Data analysts should always decide which principles and implementations of frequently used operations or sequences of decisions are important and should be preserved. These can be compositions of top-down deductive reasoning of principles and goals and bottom-up inductive reasoning of examples and applications with formal or latent representations. There remain three challenges for consolidating DSLs efficiently and effectively.
+
+\paragraph{Reusability.} Reusability is a cornerstone for efficient DSL consolidation, enabling components and frameworks to be applied across multiple contexts and applications. By promoting modular design and standardization, PFMs can create canonical and adaptable code segments. For instance, PFMs can aid in generating reusable code repositories~\cite{jain2024r2e, repocomp}, and in creating generalizable data analysis methods that can be adapted to different datasets and tasks.
+
+\paragraph{Understandable.} Making consolidated DSLs understandable is crucial for user adoption and effective implementation. This involves presenting complex logical structures and reasoning processes in a clear and accessible manner. PFMs can contribute by generating human-readable documentation and offering explanations of underlying algorithms and decisions. Additionally, incorporating intuitive interfaces and visualization tools can aid users in comprehending and interacting with the DSL. For example, PFMs can assist in exploratory data analysis by generating insights and visualizations~\cite{ma2023insightpilot, Dibia2023LIDAAT}, helping users to better understand complex data structures.
+
+\paragraph{Thoroughness.} To ensure thoroughness in consolidating DSLs, it is imperative to capture the full scope of domain-specific knowledge and operations without overlooking critical details. For mathematical definitions, thoroughness refers to all circumstances being fully discussed, at least important circumstances are well covered for an approximation~\cite{brand2023parameterized}. This involves a meticulous examination of existing principles, methodologies, and exceptions within the domain. PFMs can assist by systematically analyzing large datasets to identify patterns and gaps in knowledge bases, thereby highlighting areas that require further attention. Additionally, PFMs can help in managing the quality of implemented methods and software by assisting in performing unit tests and mathematical proofs~\cite{Wang2024TheoremLlamaTG, Carrott2024CoqPytPN}, ensuring that the consolidated DSL reflects accurate and comprehensive knowledge. Achieving thoroughness demands a balance between comprehensiveness and practicality to prevent information overload and maintain system efficiency.
+
+
+
+
+\subsection{PFM empowered Accessibility}\label{sec:interpretability}
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=0.55\textwidth]{accessible.pdf} % 这里填入图片的路径
+  \caption{\textbf{Overview of accessibility.} Successful data analysis involves stakeholders and analysts. Stakeholders' concern about the achievement of the goals proposed. Analysts are responsible for the implementation and completeness of data analysis. Which involves modeling and retrieval/generation to discover universal laws and principles implied in the structure of datasets. Interactions and accessibility should be efficiently and effectively introduced.}
+  \label{fig:accessible}
+\end{figure*}
+
+Building upon the foundations of reasoning and the consolidation challenges discussed previously, in this section we discuss the transformative capabilities offered by PFMs for data analysis interfaces. By integrating advanced representation learning and reasoning, PFMs enhance the way analysts interact with data and analytical tools. 
+
+Then, we introduce the concept of probably approximately correct (PAC) from machine learning theory. Philosophically, the PAC theory encapsulates the ontological inquiry into real entities by quantifying the capacity of learning algorithms to approximate true concepts from finite samples. Simultaneously, it emphasizes the process of distilling essence from phenomena. In this section, we discuss the transparency and understandability of the learning procedure (\S~\ref{sec:interface})  and how automatically learned concepts in PAC learned concepts contribute to interpretable and editable machine learning (\S~\ref{sec:editability}).
+
+\subsubsection{PFMs Enhanced Data Analysis Interface}\label{sec:interface}
+
+Enhancing the data analysis interface not only improves data analysis efficiency but also helps users gain deeper insights into data. This includes interfaces for data manipulation, data visualization, data integration, data preprocessing and cleaning, machine learning and modeling, data exploration, real-time analysis and monitoring, and collaboration and sharing. PFMs provide an operational interface that offers significant benefits for human interaction~\cite{dubiel2024device}, serving as a bridge between human preference choices and real-world application problems.
+
+This section explores how PFMs improve data analysis interfaces through intelligent routing to relevant data and methods, automated documentation, translation, and enhanced interaction emphasizing interpretability,  and operability.
+
+\paragraph{Routing to Data of Concern}
+
+Accessing the right data efficiently is a critical step in any analytical process. PFMs can significantly streamline this step by intelligently routing analysts to the data of concern. Leveraging their strong semantic understanding capabilities, PFMs interpret user queries to identify and retrieve relevant datasets from extensive repositories, even when dealing with different structured and semi-structured data types that often have different data manipulation interfaces.
+
+For example, an analyst may inquire, "Find me the latest sales data for the Northeast region excluding returns." The PFM can parse this request, understand the specific requirements, and locate the precise dataset that matches these criteria. This capability reduces the time spent on manual searches and minimizes the risk of overlooking pertinent data, thereby enhancing the thoroughness of the analysis as discussed in the consolidation of DSLs.
+
+PFMs also assist users in interacting with data analysis systems by establishing a mapping between business logic and data manipulation and exploration methods. Different data types require different interfaces; for instance, relational databases use Structured Query Language (SQL) and its dialects like PL/SQL. PFMs excel in generating data queries~\cite{li2023resdsql, gu2023few, cheng2022binding}, allowing users to formulate complex SQL queries through natural language instructions. This not only makes data retrieval more accessible but also reduces the likelihood of errors in query formulation.
+
+For semi-structured and unstructured data, languages such as Cypher and Gremlin are used for querying graph databases. PFMs can aid in formulating these queries as well, enhancing the performance of systems that rely on knowledge graphs~\cite{huang2023kosa}. Additionally, specialized query languages like SPARQL and XQuery are used to interact with knowledge bases and XML data. By utilizing PFMs, analysts can interact with these systems using more user-friendly natural language commands~\cite{li2024flexkbqa, Lehmann2023LanguageMA}.
+
+\paragraph{Routing to Methods of Concern}
+
+Identifying appropriate analytical methods is as important as accessing the right data. PFMs assist by recommending methods that align with the specific problem context and data characteristics. By understanding the DSL and the underlying principles of various analytical techniques, PFMs guide analysts toward the most suitable tools and methodologies.
+
+For example, when working with statistical analysis, PFMs can suggest utilizing data frameworks such as Pandas and NumPy~\cite{lai2023ds}, interpreting natural language commands to perform data manipulation. If the task involves full-text search, log analysis, or real-time monitoring, PFMs can recommend the combination of search and analysis engines like Elasticsearch, significantly benefiting information retrieval~\cite{zhu2024retrieval}.
+
+Furthermore, PFMs can serve as an interface between different dialects of systems. They can convert code or queries from one language to another, facilitating interoperability. An example is Mallet~\cite{ngom2024mallet}, a method that acts as a code converter, capable of converting queries or code snippets between different languages, thus aiding analysts who work across multiple systems.
+
+\paragraph{Documenting and Translation}
+
+Documentation is essential for knowledge sharing and maintaining the understandability of analytical processes. PFMs can automate documentation by generating detailed explanations of the steps taken during analysis, the reasoning behind method selection, and interpretations of results. They can also optimize existing interaction processes, participating in the optimization of program compilation and data manipulation processes~\cite{cummins2023large, cummins2024meta, li2024can}, thereby achieving significant computational performance improvements. Auto-documentation system helps to generate human-readable functions and variable names and docstrings which capture global structures of the repository, improving interpretability and improving downstream PFMs-guided search~\cite{GrandWBOLTA24}.
+
+Moreover, PFMs can help analysts correct errors in interface languages. Due to the universal tendency of people to make biased choices, the interface language programs written by people often contain subtle errors. Researchers have used PFMs to correct errors in the interface language written by people, achieving significant results. For example, PFMs can help data analysts modify Excel formulas, quickly identifying the causes of formula failures and undiscovered errors~\cite{Bavishi2022NeurosymbolicRF}.
+
+Additionally, PFMs can translate complex technical jargon into accessible language for non-expert stakeholders. They can also facilitate cross-lingual translation, making the findings available to a global audience. This capability ensures that the insights derived are understandable, addressing one of the key challenges in DSL consolidation.
+
+\paragraph{Interaction}
+
+Enhanced interaction between analysts and analytical tools is crucial for effective data analysis. PFMs contribute to this by providing interfaces that are both interpretable and operable. They offer explanations for their recommendations and decisions, making the analytical process transparent.
+
+PFMs enable analysts to interact with data and models using natural language commands. This lowers the barrier to advanced analytical techniques, allowing analysts to modify parameters, run simulations, and visualize data without deep technical expertise. For instance, in the field of statistics and analysis, PFMs can interpret natural language commands to perform data manipulation using frameworks like Pandas and NumPy~\cite{lai2023ds}. This interactive capability supports the balance between expressiveness and decidability in reasoning processes, as previously discussed.
+
+Researchers also utilize PFMs to optimize existing interaction processes. By determining conservative conditions through formal proof and verification, and by providing continuous system analysis and optimization suggestions, PFMs help analysts gradually approach optimal operations. Participation in the optimization of program compilation leads to significant computational performance improvements~\cite{cummins2023large, cummins2024meta}, and this finding applies to the optimization of data manipulation processes~\cite{li2024can}.
+
+By integrating these enhancements, PFMs transform the data analysis interface into a more intuitive, efficient, and effective environment. They address the challenges of thoroughness, reusability, and understandability in DSL consolidation, ultimately empowering analysts to derive deeper insights and make informed decisions.
+
+
+
+\subsubsection{Interpretable and Editable Method and Models}\label{sec:editability}
+
+Machine learning is an effective tool for automating data analysis. Its definition can encompass the objectives of data analysis. The following will explore the systematic optimizations that PFMs can bring to the field of machine learning, including optimizations in data quality, machine learning, interpretable machine learning, and the enhancement of large models for automated machine learning. Therefore, we will start from the theory of probabilistic approximation, dividing current work and directions into the manipulation of concept classes, hypothesis spaces, data distributions, and learning algorithms.
+
+\paragraph{Definition.} In the basic probabilistic approximation theory in machine learning theory, the most fundamental concept is PAC learning. Given a concept class $\mathcal{C}$, a distribution $\mathcal{D}$, and a hypothesis space $\mathcal{H}$. For $\forall c \in \mathcal{C}$, if there exists a learning algorithm $\mathcal{L}$, whose output hypothesis $h \in \mathcal{H}$ satisfies for $0<\epsilon$, $\delta < 1$ 
+
+\begin{equation} P(\mathbb{E}_{x\sim \mathcal{D}}[\text{distance}(h(x), c(x))] \leq \epsilon) \geq 1-\delta \end{equation}
+
+where distance measures the difference between the hypothesis and the concept.
+
+\paragraph{Insight.} This definition discusses the goal of machine learning, which is to learn approximately correct concept classes from data distributions. A good analysis method also requires good concept classes, data distributions, hypothesis spaces, and learning algorithms. Ideally, the hypothesis space $\mathcal{H}$ exactly covers the concept $c$ that needs to be learned. However, this is often not achievable.
+
+
+PFMs have the potential to address these challenges by utilizing human-understandable concept classes to construct hypothesis spaces that better meet analytical needs, thereby enhancing the interpretability and editability of machine-learning models. As discussed in \S~\ref{sec:data_quality}, PFMs can improve data quality by representative sampling, generating and helping to build methods that are robust to certain error types, and in \S~\ref{sec:auto_ml}, we see that PFMs serve as learning algorithms explicitly organize discovered and prompted knowledge from analysts, helping them automatically construct machine learning pipelines.
+
+Black box models and decisions lead to undesirable consequences: data analysts and engineers cannot trace the causes of errors, resulting in issues of fairness and compliance, and ultimately leading to a loss of trust from users and decision-makers. Furthermore, these models make it difficult for engineers and data scientists to identify model deficiencies and edit decision-making or predictive behaviors.
+
+As a result, data analysts across various industries prefer interpretable and editable machine learning methods~\cite{vertsel2024hybrid,gerussi2022llm,Zhang2024LargeLM,truhn2023large}. The question then arises: how can PFMs aid in the development of interpretable and editable machine learning? The key lies in their potential to overcome current obstacles in explainable machine learning by leveraging their capacity to explore logical systems with greater expressiveness and human-understandable rules~\cite{reizingerposition}. By doing so, PFMs can facilitate the construction of models that are both interpretable and editable, aligning with the practical needs of data analysis. Despite the promising advantages, integrating PFMs to enhance interpretability and editability in machine learning introduces several challenges that must be addressed.
+
+\paragraph{Enhancing interpretability with high expressiveness.}
+
+There exists a fundamental trade-off between the expressiveness of a model and its interpretability. Highly expressive models, such as deep neural networks, can capture complex patterns within data but are often opaque, making them difficult for humans to understand. Conversely, interpretable models, like decision trees and rule-based systems, offer transparency but may lack the expressiveness required to model intricate data relationships.
+
+PFMs are adept at exploring logical systems with increased expressiveness while incorporating human-under\-standable rules~\cite{reizingerposition}. By leveraging PFMs, we can construct hypothesis spaces that balance expressiveness and interpretability, overcoming the traditional compromise between model complexity and understandability. One way to enhance interpretability without sacrificing expressiveness is to leverage PFMs to understand and interpret complex models for interpretable needs. \cite{nam2024using} propose an IDE plugin that can interpret complex code repositories whose code comments and documentation are scarce or hard to navigate. More pragmatically, analysts can distill PFM knowledge to simple and interpretable models~\cite{singh2023augmenting}. With constrained but enough expressiveness of simple models, analysts can make appropriate choices for consolidating augmented knowledge into simpler models.
+
+PFMs also help in interpreting models, and complex data structures, e.g., \cite{ko2024filling} designed an LLM-based method to convert scientific data into the desired form. Though a database with complete records is highly expressive in capturing reality with fixed, it is hard to interact with and explore. \cite{zheng2024revolutionizing} proposes a question-answering method for databases. This involves creating interfaces that transform data types challenging for humans to comprehend (e.g., continuous numerical values, extensive codebases) into more accessible forms (e.g., Boolean variables, symbolic expressions, natural language descriptions, visualizations). Utilizing PFMs to generate human-like explanations can achieve a level of diversity and clarity that approximates or even surpasses human capabilities.
+
+\paragraph{Enhancing editability with high stability.}
+
+Another challenge lies in balancing model editability with stability. Editable models allow engineers and data scientists to adjust and refine model behavior to meet new requirements, inject external knolwedge or eliminate undesired actions. However, frequent edits can lead to instability, potentially degrading the model's performance on previously generalized samples.
+
+Compared to uneditable neural network methods, PFMs and editable machine learning models are poised to become new focal points~\cite{vojivr2020editable}. These models excel in adapting to new needs and eliminating unwanted behaviors. They naturally represent relational data, making them suitable for downstream tasks involving such data. For instance, using neural network models directly for classification tasks on tabular data often yields performance that is inferior to decision tree and rule-based methods~\cite{popov2019neural,grinsztajn2022tree}. Moreover, their interpretability and editability are limited, hindering the quick and accurate incorporation of new rules.
+
+By utilizing the rule extrapolation capabilities of PFMs~\cite{reizingerposition}, we can compensate for the shortcomings of these discriminative models. For example, \cite{nam2024optimized} employs pre-trained models to augment data for decision trees, enhancing their performance. From a practical standpoint, interpretable methods in tabular domains can be as accurate as black-box models. Researchers have leveraged interpretable machine learning to help practitioners identify defects in datasets, discover new scientific insights, and build fairer and more robust models~\cite{caruana2022data}.
+
+Data analysts prefer white-box models, therefore, researchers in business, medicine, energy, and other fields have begun to combine PFMs with interpretable models~\cite{vertsel2024hybrid,gerussi2022llm,Zhang2024LargeLM}. These methods excel in editability, carefully integrating PFMs' reasoning capabilities with editable machine learning algorithms to enhance model generalization without compromising performance on existing generalized samples.
+
+
+\subsection{PFMs Enhance Data Quality Optimization}\label{sec:data_quality}
+
+\begin{figure*}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{data_quality.pdf} % 这里填入图片的路径
+  \caption{\textbf{Overview of solving data quality issues.} This involves data preparation that can produce high-quality datasets or robust methods that directly produce models free from contradictions and incompleteness. High-quality data from data cleaning can be produced by coordinating with other datasets, external knowledge and propositions but can introduce additional complexity for computation or management. Robust methods can be easy to apply but can introduce complexity to models and optimization methods. Idealistically these methods commute for the same data analysis task.}
+  \label{fig:data_quality}
+\end{figure*}
+
+
+Data quality is a critical factor in the success of machine learning models and data analysis. Poor data quality can lead to incorrect conclusions, model overfitting, and reduced generalization ability. Pretrained Foundation Models (PFMs) offer new avenues for enhancing data quality by addressing issues such as data incompleteness, uneven distribution, noise, and errors. By leveraging the strengths of PFMs in data generation, inference, and cleaning, we can improve the reliability and robustness of data analysis.
+
+\subsubsection{Representative Data Sampling/Generating}
+
+Representative sampling is essential to ensure that the data collected accurately reflects the underlying population or phenomenon. Beyond the concept of PAC learning, the distribution $\mathcal{D}$ from which the samples are drawn plays a crucial role in the learning process. If the sample does not represent $\mathcal{D}$ well, the learning algorithm $\mathcal{L}$ may not produce a hypothesis $h$ that approximates the true concept $c$ within the desired error bounds.
+
+\paragraph{Active Sampling.}
+
+PFMs can assist in active representative sampling by identifying regions in the data space where additional samples would most improve the model's performance. By doing so, they help mitigate issues related to insufficient or uneven data distributions, which are common challenges in real-world applications. For instance, when certain classes are underrepresented, PFMs can guide the collection of additional samples for those classes, enhancing the overall representativeness of the dataset. Solo~\cite{Wang2023SoloDD} performs data discovery on large-scale databases to find helpful records from a large dataset, which shares the same goals of EDA with automation.
+
+\paragraph{Generating with Deductive Bias.}
+
+PFMs can generate synthetic data that adhere to known constraints and logical rules, a process we refer to as generating with deductive bias. Data generating involves generating representative entities and linkages according to these rules. 
+
+
+For example, linkages would be missing in tabular data due to heterogeneity forms of the same entity. PFMs help to discover linkages to create more complete records to enhance semantic accuracy~\cite{Nobari2023DTTAE}. By leveraging prior knowledge and deductive reasoning, PFMs produce data that not only augment the existing dataset but also preserve essential properties and invariants of the data generation mechanism. This approach helps address data scarcity and imbalance by enriching the dataset with high-quality samples that reflect the underlying concepts more accurately.
+
+Generative models like generative adversarial methods~\cite{Loem2023SAIEFS}, and variational inference-based methods~\cite{huamortizing} enable PFMs to create samples similar to the training data with reorganized causes and effect inferred by these inference techniques implied in the data. By enhancing the model's understanding of data distributions and algebraic structures, these generative methods improve generalization ability and robustness. For example, PFMs can generate data beneficial to analysis through adversarial generation~\cite{du2024enhancing,weng2023g}, effectively capturing global characteristics of the data.
+
+Researchers have found that PFMs can enhance Bay\-esian inference and variational inference methods~\cite{huamortizing}. These methods infer important structures within the data and generate new data based on these structures, significantly improving the accuracy and reliability of data analysis in scientific research and industrial applications.
+
+\subsubsection{Robustness Against Errors}
+
+Robustness against errors is vital for the reliability of machine learning models. Errors in data, such as noise, missing values, and inconsistencies, can lead to overfitting and reduced model performance. In the PAC learning framework, robustness can be viewed as the ability of the learning algorithm $\mathcal{L}$ to produce a hypothesis $h$ that approximates the true concept $c$ even when the data distribution $\mathcal{D}$ contains errors.
+
+\paragraph{Data Cleaning.}
+
+PFMs play a significant role in data cleaning by detecting and correcting errors in datasets. They can identify data points that violate known data quality rules and constraints~\cite{li2024towards}, assisting analysts in cleaning the data effectively. By automating error detection and correction, PFMs improve the overall data quality, which is essential for reliable inductive reasoning as discussed earlier.
+
+Data analysts face challenges in accurately and efficiently representing domain or expert knowledge using predictive models and domain-specific languages. The optimization of data quality is essentially about using limited data, combined with expert knowledge, to perform induction and deduction in the hypothesis space $\mathcal{H}$, continuously providing conservative rules closer to the data generation mechanism~\cite{peng2022self}. PFMs aid in this process by offering implicit representations of potentially unknown information, serving as a valuable starting point for data quality optimization.
+
+\paragraph{Robust Methods.}
+
+Developing robust hypothesis classes and learning algorithms is crucial for handling errors and noise in data. PFMs contribute to the creation of robust methods by enhancing the model's capacity to generalize from imperfect data. For example, PFMs can help in constructing hypothesis spaces that include invariants and constraints derived from algebraic~\cite{Miao2022LearningIA}, analytic~\cite{Neu2022GeneralizationBV}, and geometric methods~\cite{Atzeni2023InfusingLS}, which improve the model's generalization ability even when data quality is compromised.
+
+Moreover, generative models have significant advantages in addressing data missing and uneven distribution issues. By learning the potential distribution of the data, generative models can generate new samples that better capture the global characteristics of the data~\cite{094dai2017good}. Studies have shown that in low-resource environments, the performance of generative models surpasses that of discriminative models~\cite{097yoon2017semi}. This is primarily because generative models can generate more high-quality training data to compensate for the lack of labeled data, thereby improving the model's generalization ability. Discriminative models, which rely directly on existing labeled data, cannot fully utilize the potential information in unlabeled data~\cite{102yang2018deep}.
+
+By integrating PFMs into the data quality optimization process, we can enhance the robustness and reliability of machine learning models, ensuring that they perform effectively even in the presence of data imperfections. This aligns with the principles of PAC learning, where the goal is to learn approximately correct concepts from data distributions, and supports both inductive and deductive reasoning in the analysis.
+
+\subsection{Automated Machine Learning}\label{sec:auto_ml}
+
+Automated machine learning (AutoML) aims to automate the design, deployment, and optimization processes of machine learning models, enabling non-domain experts to effectively utilize data and reducing the need for manual intervention by professional data scientists. It includes model selection and optimization, feature engineering~\cite{Hollmann2023LargeLM}, hyperparameter tuning, model evaluation, and end-to-end process automation~\cite{salehin2024automl}. The following definition and insight highlight the importance of choosing appropriately represented sample distributions, learning algorithms, and hypothesis spaces.
+
+\paragraph{Definition.} Given a sample size \\ $m \geq \text{poly}(1/\epsilon, 1/ \delta, \text{size}(x), \text{size}(c))$, if a learning algorithm $\mathcal{L}$ makes the concept class $\mathcal{C}$ PAC identifiable, and the running time of $\mathcal{L}$ is a polynomial function $\text{poly}(1/\epsilon, 1/ \delta, \text{size}(x), \text{size}(c))$, then the concept class $\mathcal{C}$ is efficiently PAC learnable. Here, $\text{size}(x)$ and $\text{size}(c)$ represent the complexity or dimensionality of a single sample and a single concept, respectively.
+
+\paragraph{Insight.} In machine learning, for the same concept class, choosing different representations, learning algorithms, and hypothesis spaces can lead to different learnability outcomes.
+
+
+
+\subsubsection{Consolidating AutoML}
+
+Automated Machine Learning (AutoML) aims to automate the design, deployment, and optimization processes of machine learning models, enabling non-domain experts to effectively utilize data and reducing the need for manual intervention by professional data scientists. It's an inquiry for automation of self-disciplined reasoning and decision plans with the least human interference.
+
+However, constructing AutoML projects often requires significant manual effort in configuring pipelines, selecting appropriate algorithms, and tuning parameters. These are efforts to consolidate machine learning pipelines to where more effective hypotheses lie. Furthermore, researchers are exploring more effective learning methods compatible with increasingly complex search spaces. The choice of representations (controlled by the form of selected feature), learning algorithms (partially tuned by hyperparameter), and hypothesis spaces (controlled by model architecture) significantly affect the identifiability of a concept class.
+
+Recent works have utilized PFMs to enhance these various aspects of AutoML. For instance,~\cite{Hollmann2023LargeLM} achieved automatic feature engineering based on large language models (LLMs), streamlining the process of extracting relevant features from data. Additionally,\cite{sayed2024gizaml} employed PFMs to explore neural architecture search and hyperparameter spaces for foundational learning and inference methods. These approaches leverage the capabilities of PFMs to navigate complex search spaces efficiently.
+
+Pretrained Foundation Models (PFMs) have demonstrated great potential in automating model selection and optimization within the data analysis process~\cite{liu2023jarvix}. Recent studies have shown that PFMs can implement standard machine learning algorithms in different contexts, such as least squares regression and gradient descent for two-layer neural networks~\cite{bai2024transformers}. This suggests that PFMs can implicitly perform algorithm selection and optimization, reducing the manual effort required in constructing AutoML projects.
+
+
+
+\subsubsection{Scaling AutoML}
+
+To move beyond FE, NAS, and HPO, recent research focuses on incorporating PFMs into other stages of the machine learning pipeline, such as data augmentation, model ensembling, and transfer learning. This involve more explicit management of formal knowledge which encodes consistent structural methods~\cite{SongY00024, HsuMTW23}, and is discussed more elaborately \S~\ref{sec:dsl}. This holistic integration can enhance the overall performance and scalability of AutoML systems, enabling them to handle a wider range of tasks and datasets with minimal human intervention.
+
+The application of PFMs in context learning provides a new perspective for algorithm selection. Models like GPT and BERT are capable of understanding and processing complex contextual information, and based on this, selecting appropriate algorithms~\cite{009brown2020language, EoTGE}. These models leverage simple underlying rules, and as pointed out by~\cite{reizingerposition}, PFMs exhibit near-saturated statistical generalization properties and possess certain rule extrapolation capabilities. This endows them with strong context learning abilities, enabling them to adaptively select and optimize algorithms. Moreover, these extrapolation rules can be explicitly expressed as formal languages by PFMs~\cite{cheng2022binding}, enhancing the interpretability of AutoML results.
+
+Furthermore, transducing the knowledge searched during the AutoML process into understandable formats is facilitated by PFMs' ability to generate explanations and formal representations. This enhances the interpretability of the models and allows analysts to gain insights into the reasoning behind model selections and predictions.

@@ -25,6 +25,13 @@
 
 - Automatic Data Repair: Are We Ready to Deploy?
 
+- Can Foundation Models Wrangle Your Data?
+
+- Match, Compare, or Select? An Investigation of Large Language Models for Entity Matching
+
+- Entity Matching using Large Language Models
+
+
 ### RAG, retrieval, graph building
 
 - In-depth Analysis of Graph-based RAG in a Unified Framework, VLDB 2025
@@ -78,3 +85,41 @@ DS-1000: A Natural and Reliable Benchmark for Data Science Code Generation
 1. Searching Data Lakes for Nested and Joined Data.
 
 2. 自动化所NIPS23有一个 sheet copilot，天大后面做了一个sheet agent
+
+### Schema mapping
+
+1. DTT: An Example-Driven Tabular Transformer for Joinability by Leveraging Large Language Models
+
+Web Tables Dataset (WT), Spreadsheet Dataset (SS), Knowledge Base Web Tables (KBWT), General Synthetic Dataset (Syn)
+<!-- Easy Synthetic Dataset (Syn-RP), Medium Synthetic Dataset (Syn-ST), Difficult Synthetic Dataset (Syn-RV) -->
+
+2. DeepJoin: Joinable Table Discovery with Pre-trained Language Models
+
+Webtable, Wikitable
+
+3. Chorus: Foundation Models for Unified Data Discovery and Exploration
+
+T2D-class v2, GitNotebooks,  DBPedia ontology, VizNet dataset
+
+
+
+
+
+
+4. Code Repair with LLMs gives an Exploration-Exploitation Tradeoff
+
+### 
+
+1. From Words to Numbers: Your Large Language Model Is Secretly A Capable Regressor When Given In-Context Examples
+
+### Improving Decision Trees
+
+1. Gradient Boosting Trees and Large Language Models for Tabular Data Few-Shot Learning
+
+2. Optimized Feature Generation for Tabular Data via LLMs with Decision Tree Reasoning
+
+### Theories 
+
+In-context Learning on Function Classes Unveiled for Transformers
+
+What learning algorithm is in-context learning? Investigations with linear models

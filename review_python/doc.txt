@@ -1,0 +1,23 @@
+第二章的子章节 "Data Management" 和第三章的子章节 "Domain-Specific Language Understanding" 共享的引用有: 022batini2009methodologies, 037little2019statistical, Ellis2020DreamCoderGG, Li2024IsPB, Tang2024WorldCoderAM, deem, ni2024iterclean, qi2024cleanagent, vos2022towards
+第二章的子章节 "Data Management" 和第三章的子章节 "LPMs Enhance Data Quality Optimization" 共享的引用有: Nobari2023DTTAE, Wang2023SoloDD
+第二章的子章节 "Data Management" 和第三章的子章节 "Automated Machine Learning" 共享的引用有: Hollmann2023LargeLM
+第二章的子章节 "Exploratory Data Analysis" 和第三章的子章节 "Domain-Specific Language Understanding" 共享的引用有: Dibia2023LIDAAT, GrandWBOLTA24, ma2023insightpilot
+第二章的子章节 "Exploratory Data Analysis" 和第三章的子章节 "Accessible of Complex Models" 共享的引用有: GrandWBOLTA24, dubiel2024device, ko2024filling, li2024can, nam2024using, zheng2024revolutionizing
+第二章的子章节 "Implementing Data Analysis Methods and Models" 和第三章的子章节 "Domain-Specific Language Understanding" 共享的引用有: 031guyon2003introduction, GrandWBOLTA24, KoziolekGHALE24, jain2024r2e, repocomp, yuan2023power, zhengprise
+第二章的子章节 "Implementing Data Analysis Methods and Models" 和第三章的子章节 "Accessible of Complex Models" 共享的引用有: GrandWBOLTA24, nam2024optimized, singh2023augmenting
+第二章的子章节 "Implementing Data Analysis Methods and Models" 和第三章的子章节 "Automated Machine Learning" 共享的引用有: EoTGE, HsuMTW23, HuZWCM0WSXZCY0K24, SongY00024, bai2024transformers, sayed2024gizaml
+第二章的子章节 "Assessing Analytical Results" 和第三章的子章节 "Domain-Specific Language Understanding" 共享的引用有: Li2024IsPB, Pei2023CanLL, Wang2024TheoremLlamaTG, qi2024cleanagent
+
+第二章中每个子章节独有的引用:
+  子章节 "Data Management" 的独有引用: Zhou2019ASO, international2017dama, khoshafian1986object, sordoni2024joint, van2020data, zuo2022spine
+  子章节 "Exploratory Data Analysis" 的独有引用: 001barton2012making, heer2010declarative, kim2022cicero, shih2018declarative
+  子章节 "Implementing Data Analysis Methods and Models" 的独有引用: 020arlot2010survey, 032hastie2009elements, WangCY0L0J24, angluin1988queries
+  子章节 "Assessing Analytical Results" 的独有引用: 027davenport2017competing, 033kaelbling1996reinforcement, 038provost2013data, 040shmueli2011predictive, hu2023survey, schumann2013automated, shao2023synthetic, yang2024give, yao2024tree
+
+第三章中每个子章节独有的引用:
+  子章节 "Domain-Specific Language Understanding" 的独有引用: 029dietterich1995overfitting, DeletangRDCGMGW24, HansenCF24, Khakhar2023PACPS, ahuja2023interventional, blaauwbroekgraph2tac, buchholzrobustness, feyposition, garcia2010using, wang2023large
+  子章节 "Accessible of Complex Models" 的独有引用: Bavishi2022NeurosymbolicRF, Lehmann2023LanguageMA, Zhang2024LargeLM, caruana2022data, cummins2023large, cummins2024meta, gerussi2022llm, grinsztajn2022tree, huang2023kosa, lai2023ds, li2024flexkbqa, ngom2024mallet, popov2019neural, vertsel2024hybrid, vojivr2020editable, zhu2024retrieval
+  子章节 "LPMs Enhance Data Quality Optimization" 的独有引用: 094dai2017good, 095goodfellow2014generative, 096kingma2013auto, 097yoon2017semi, 102yang2018deep, Atzeni2023InfusingLS, Miao2022LearningIA, Neu2022GeneralizationBV, du2024enhancing, huamortizing, li2024towards, peng2022self, weng2023g
+  子章节 "Automated Machine Learning" 的独有引用: 009brown2020language, liu2023jarvix, salehin2024automl
+
+  Hollmann2023LargeLM, bai2024transformers, liu2023jarvix, sayed2024gizaml
