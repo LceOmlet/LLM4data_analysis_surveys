@@ -21,14 +21,14 @@
   \setlength{\leftNodeWidth}{2.8cm} % 左列子节点宽度，可调整
   
   \newlength{\middleNodeWidth}
-  \setlength{\middleNodeWidth}{4.2cm} % 中间列节点宽度，可调整
+  \setlength{\middleNodeWidth}{6cm} % 中间列节点宽度，可调整
   
   % 新增：定义中间节点的最小高度
   \newlength{\middleNodeHeight}
   \setlength{\middleNodeHeight}{0.2cm} % 中间列节点的最小高度，可调整
   
   \newlength{\rightNodeWidth}
-  \setlength{\rightNodeWidth}{3.4cm} % 右列子节点宽度，可调整
+  \setlength{\rightNodeWidth}{2.4cm} % 右列子节点宽度，可调整
   
   % 定义左、中、右列的垂直间距
   \newlength{\leftVerticalSpacing}
@@ -124,21 +124,32 @@
   
   % 定义中间节点的名称和对应的引用
   \def\middleNodes{
-  {group1}/{DTT~\cite{Nobari2023DTTAE}, Solo~\cite{Wang2023SoloDD}},
-    {group2}/{CleanAgent~\cite{qi2024cleanagent} \cite{Li2024IsPB}},
-    {group3}/{WorldCoder~\cite{Tang2024WorldCoderAM}, IterClean~\cite{ni2024iterclean}, PFM+KG~\cite{KGobjectrecognition,constructKG}, \cite{ vos2022towards, deem}},
-    {group4}/{CAAFE~\cite{Hollmann2023LargeLM}},
-    {group5}/{LIDA~\cite{Dibia2023LIDAAT}, InsightPlot~\cite{ma2023insightpilot}},
-    {group6}/{ReactionParser~\cite{ko2024filling}, GILT~\cite{nam2024using}, \\ BIRD~\cite{li2024can}  \cite{dubiel2024device, zheng2024revolutionizing}},
-    {group7}/{R2E~\cite{jain2024r2e}, PRISE~\cite{zhengprise}, Repoformer~\cite{repocomp}  \cite{KoziolekGHALE24, yuan2023power}},
-    {group8}/{Aug-Tree/Linear~\cite{singh2023augmenting} \cite{nam2024optimized}},
-    {group9}/{LEFT~\cite{HsuMTW23}, InfiAgent~\cite{HuZWCM0WSXZCY0K24},LaTree~\cite{SongY00024} \cite{EoTGE, bai2024transformers, sayed2024gizaml}},
-    {group10}/{PALM~\cite{Wang2024TheoremLlamaTG}, CoqPyt~\cite{Carrott2024CoqPytPN}  \cite{Pei2023CanLL, Wang2024TheoremLlamaTG}},
-    {group11}/{LILO~\cite{GrandWBOLTA24}},
-    {group12}/{GPTuner~\cite{GPTuner}, CHORUS~\cite{CHORUS}, \cite{tabulargeneration, LLMschema}},
-    {group13}/{NL2SQL~\cite{readyforNL2SQL,smalllargemodelNL2SQL,text2sqlevaluation}},
-    {group15}/{PFM+SMT~\cite{jha2023counterexample, ye2024satlm}}
-  }
+    {group1}/{\cite{022batini2009methodologies}, \cite{029dietterich1995overfitting}, \cite{037little2019statistical}, \cite{Bavishi2022NeurosymbolicRF}, \cite{Carrott2024CoqPytPN}, \cite{CatSQL}, \cite{DeletangRDCGMGW24}, \cite{FMcard}, \cite{FevrySFCK20}, \cite{HansenCF24}, \cite{JongZFSC22}, \cite{Khakhar2023PACPS}, \cite{Lehmann2023LanguageMA}, \cite{NLPTune}, \cite{NeuralDB}, \cite{TURL}, \cite{ahuja2023interventional}, \cite{blaauwbroekgraph2tac}, \cite{brand2023parameterized}, \cite{buchholzrobustness}, \cite{caruana2022data}, \cite{cummins2023large}, \cite{cummins2024meta}, \cite{feyposition}, \cite{garcia2010using}, \cite{grinsztajn2022tree}, \cite{gu2023few}, \cite{hongjin2024bright}, \cite{huang2023kosa}, \cite{lai2023ds}, \cite{li2023resdsql}, \cite{li2024flexkbqa}, \cite{ngom2024mallet}, \cite{popov2019neural}, \cite{vapnik2019rethinking}, \cite{vectorstorage}, \cite{vojivr2020editable}, \cite{wang2023large}, \cite{zhou2025depth}, \cite{zhu2024retrieval}},
+    {group2}/{\cite{009brown2020language}, \cite{041zhai2022scaling}, \cite{JeonLLR24}, \cite{Ji2022SurveyOH}, \cite{Kaufmann2023ASO}, \cite{Lu2021FantasticallyOP}, \cite{Shi2023LargeLM}, \cite{Wang2023KnowledgeEF}, \cite{abbe2023generalization}, \cite{akyurek2022learning}, \cite{bender2021dangers}, \cite{chow2024performance}, \cite{codd2007relational}, \cite{dinh2024large}, \cite{gao2023retrieval}, \cite{khakhar2023pac}, \cite{liu2023jarvix}, \cite{morishita2023learning}, \cite{pei2023can}, \cite{salehin2024automl}, \cite{tan2024language}, \cite{vacareanu2024words}, \cite{wang2024context}, \cite{wu2024continual}, \cite{yang2024leandojo}},
+    {group3}/{\cite{ActiveLearning}, \cite{DeepJoin}, \cite{Ditto}, \cite{Ember}, \cite{FMwrangling}, \cite{Starmie}, \cite{entityresolution}, \cite{fernandez2023large}, \cite{international2017dama}, \cite{jain2022jigsaw}, \cite{khoshafian1986object}, \cite{lyu2024automatic}, \cite{turing1936computable}, \cite{van2020data}, \cite{wang1996beyond}, \cite{zuo2022spine}},
+    {group4}/{\cite{027davenport2017competing}, \cite{033kaelbling1996reinforcement}, \cite{040shmueli2011predictive}, \cite{DhuliawalaKXRLC24}, \cite{KamoiZZHZ24}, \cite{Rodriguez2024ExploringAO}, \cite{alshahwan2024automated}, \cite{hu2023survey}, \cite{schafer2023empirical}, \cite{schumann2013automated}, \cite{shao2023synthetic}, \cite{yang2024give}, \cite{yao2024tree}},
+    {group5}/{\cite{094dai2017good}, \cite{097yoon2017semi}, \cite{102yang2018deep}, \cite{Atzeni2023InfusingLS}, \cite{Loem2023SAIEFS}, \cite{Miao2022LearningIA}, \cite{Neu2022GeneralizationBV}, \cite{du2024enhancing}, \cite{huamortizing}, \cite{li2024towards}, \cite{peng2022self}, \cite{weng2023g}},
+    {group6}/{\cite{Dibia2023LIDAAT}, \cite{ReActTable}, \cite{dubiel2024device}, \cite{ko2024filling}, \cite{ma2023insightpilot}, \cite{nam2024using}, \cite{readyforNL2SQL}, \cite{smalllargemodelNL2SQL}, \cite{text2sqlevaluation}, \cite{zheng2024revolutionizing}},
+    {group7}/{\cite{031guyon2003introduction}, \cite{KoziolekGHALE24}, \cite{Li2024IsPB}, \cite{jain2024r2e}, \cite{nam2024optimized}, \cite{repocomp}, \cite{singh2023augmenting}, \cite{yuan2023power}, \cite{zhengprise}},
+    {group8}/{\cite{Pei2023CanLL}, \cite{Wang2024TheoremLlamaTG}, \cite{Zhang2024LargeLM}, \cite{gerussi2022llm}, \cite{jha2023counterexample}, \cite{truhn2023large}, \cite{vertsel2024hybrid}, \cite{ye2024satlm}},
+    {group9}/{\cite{Ellis2020DreamCoderGG}, \cite{GPTuner}, \cite{KGobjectrecognition}, \cite{Tang2024WorldCoderAM}, \cite{constructKG}, \cite{deem}, \cite{qi2024cleanagent}},
+    {group10}/{\cite{ZhangS24}, \cite{heer2010declarative}, \cite{kim2022cicero}, \cite{myatt2007making}, \cite{shih2018declarative}},
+    {group11}/{\cite{020arlot2010survey}, \cite{032hastie2009elements}, \cite{HuZWCM0WSXZCY0K24}, \cite{WangCY0L0J24}},
+    {group12}/{\cite{EoTGE}, \cite{HsuMTW23}, \cite{SongY00024}, \cite{sayed2024gizaml}},
+    {group13}/{\cite{Hollmann2023LargeLM}, \cite{LinDJZ24}, \cite{malberg2024felix}, \cite{sordoni2024joint}},
+    {group14}/{\cite{ACSV}, \cite{YanWWML24}, \cite{huh2023pool}},
+    {group15}/{\cite{LLMschema}, \cite{ni2024iterclean}, \cite{vos2022towards}},
+    {group16}/{\cite{li2024table}, \cite{tabulargeneration}, \cite{zhang2024jellyfish}},
+    {group17}/{\cite{CHORUS}, \cite{Nobari2023DTTAE}},
+    {group18}/{\cite{Wang2023SoloDD}},
+    {group19}/{\cite{JiangSQLZZY25}},
+    {group20}/{\cite{bai2024transformers}},
+    {group21}/{\cite{li2024can}},
+    {group22}/{\cite{ZeroED}},
+    {group23}/{\cite{cheng2022binding}},
+    {group24}/{\cite{reizingerposition}},
+    {group25}/{\cite{GrandWBOLTA24}}
+}
   
   % 放置中间列节点
   \def\yShift{-1cm} % 累积垂直偏移量
@@ -149,69 +160,65 @@
     \xdef\yShift{\pgfmathresult}
   }
   
-  % 画出平滑的连接线，使用对应子章节的主题颜色
-  % 组1连接：Data Management 和 Understanding of DSL
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group1.west);
+  % Generated connections based on co-occurrence patterns
   \draw[->, thin, draw=DSLUnderstandingColor] (group1.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  % 组2连接：Data Management、Assessment 和 Understanding of DSL
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group2.west);
-  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group2.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group2.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  % 组3连接：Data Management 和 Data Quality Optimization
+  \draw[->, thin, draw=AutoMLColor] (group2.east) to [out=0, in=180] (automated_ml.west);
   \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group3.west);
-  \draw[->, thin, draw=DataQualityOptimizationColor] (group3.east) to [out=0, in=180] (PFM_quality.west);
-  \draw[->, thin, draw=DataQualityOptimizationColor] (group4.east) to [out=0, in=180] (PFM_quality.west);
-  
-  % 组4连接：Data Management 和 AutoML
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group4.west);
-  \draw[->, thin, draw=AutoMLColor] (group4.east) to [out=0, in=180] (automated_ml.west);
-  
-  % 组5连接：Exploratory Data Analysis 和 Reasoning
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group5.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group5.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  % 组6连接：Exploratory Data Analysis 和 Accessibility
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group4.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group5.east) to [out=0, in=180] (PFM_quality.west);
   \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group6.west);
-  \draw[->, thin, draw=AccessibilityColor] (group6.east) to [out=0, in=180] (accessible_models.west);
-  
-  % 组7连接：Implementation 和 Reasoning
+  \draw[->, thin, draw=DSLUnderstandingColor] (group6.east) to [out=0, in=180] (dsl_understanding.west);
   \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group7.west);
   \draw[->, thin, draw=DSLUnderstandingColor] (group7.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  % 组8连接：Implementation 和 Accessibility
-  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group8.west);
-  \draw[->, thin, draw=AccessibilityColor] (group8.east) to [out=0, in=180] (accessible_models.west);
-  
-  % 组9连接：Implementation 和 AutoML
-  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group9.west);
-  \draw[->, thin, draw=AutoMLColor] (group9.east) to [out=0, in=180] (automated_ml.west);
-  
-  % 组10连接：Assessment 和 Reasoning
-  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group10.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group10.east) to [out=0, in=180] (dsl_understanding.west);
-  
-  % 组11连接：多个子章节
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group11.west);
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group8.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group8.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group9.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group9.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group10.west);
   \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group11.west);
-  \draw[->, thin, draw=DSLUnderstandingColor] (group11.east) to [out=0, in=180] (dsl_understanding.west);
-  \draw[->, thin, draw=AccessibilityColor] (group11.east) to [out=0, in=180] (accessible_models.west);
-  
-  % 组12连接：Data Management 和 Accessibility
-  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group12.west);
-  \draw[->, thin, draw=AccessibilityColor] (group12.east) to [out=0, in=180] (accessible_models.west);
-  
-  % 组13连接：Exploratory Data Analysis 和 Accessibility
-  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group13.west);
-  \draw[->, thin, draw=AccessibilityColor] (group13.east) to [out=0, in=180] (accessible_models.west);
-  
-  % 组15连接：Assessment 和 Reasoning
-  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group15.west);
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group12.west);
+  \draw[->, thin, draw=AutoMLColor] (group12.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group13.west);
+  \draw[->, thin, draw=AutoMLColor] (group13.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group14.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group14.east) to [out=0, in=180] (PFM_quality.west);
+  \draw[->, thin, draw=AutoMLColor] (group14.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group15.west);
   \draw[->, thin, draw=DSLUnderstandingColor] (group15.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group15.east) to [out=0, in=180] (PFM_quality.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group16.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group16.east) to [out=0, in=180] (PFM_quality.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group17.west);
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group17.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group17.east) to [out=0, in=180] (PFM_quality.west);
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group18.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group18.west);
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group18.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group18.east) to [out=0, in=180] (PFM_quality.west);
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group19.west);
+  \draw[->, thin, draw=AutoMLColor] (group19.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group20.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group20.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=AutoMLColor] (group20.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group21.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group21.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=AutoMLColor] (group21.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=DataManagementColor] (data_management.east) to [out=0, in=180] (group22.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group22.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=DataQualityOptimizationColor] (group22.east) to [out=0, in=180] (PFM_quality.west);
+  \draw[->, thin, draw=AutoMLColor] (group22.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group23.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=AutoMLColor] (group23.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=AssessmentColor] (assessing_results.east) to [out=0, in=180] (group24.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group24.east) to [out=0, in=180] (dsl_understanding.west);
+  \draw[->, thin, draw=AutoMLColor] (group24.east) to [out=0, in=180] (automated_ml.west);
+  \draw[->, thin, draw=ImplementationColor] (implementing_methods.east) to [out=0, in=180] (group25.west);
+  \draw[->, thin, draw=ExploratoryDataAnalysisColor] (exploratory_data_analysis.east) to [out=0, in=180] (group25.west);
+  \draw[->, thin, draw=DSLUnderstandingColor] (group25.east) to [out=0, in=180] (dsl_understanding.west);
+
   
   \end{tikzpicture}
-  \caption{\textbf{An Overview of How PFMs Improve Data Analysis.} The figure illustrates the relationships between key data analysis tasks (left column)—Data Management, Exploratory Data Analysis, Implementation, and Assessment—and the Improvements enabled by PFMs (right column). The middle column lists representative methods and studies that bridge specific tasks to the corresponding improvements. Arrows indicate how PFMs address challenges within each task, facilitating the transition towards optimized data analysis processes. This visual framework underscores the multifaceted role of PFMs in systematically enhancing data analysis by connecting practical tasks with advanced improved strategies and the core role of scaling and consolidating domain-specific language (DSL) during data analysis.}
+  \caption{\textbf{An Overview of How PFMs Improve Data Analysis. Updated with 8-subsection co-occurrence based grouping.} The figure illustrates the relationships between key data analysis tasks (left column)—Data Management, Exploratory Data Analysis, Implementation, and Assessment—and the Improvements enabled by PFMs (right column). The middle column lists representative methods and studies that bridge specific tasks to the corresponding improvements. Arrows indicate how PFMs address challenges within each task, facilitating the transition towards optimized data analysis processes. This visual framework underscores the multifaceted role of PFMs in systematically enhancing data analysis by connecting practical tasks with advanced improved strategies and the core role of scaling and consolidating domain-specific language (DSL) during data analysis.}
 
   \end{figure*}
 \end{document}

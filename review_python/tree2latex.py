@@ -161,6 +161,6 @@ def create_latex_table(file_path, output_table_path):
     print(f"已成功生成LaTeX表格并保存到 '{output_table_path}'。")
 
 if __name__ == "__main__":
-    input_file = "/mnt/c/Users/Administrator/Desktop/review_python/appendix.tex"
-    output_table_file = "appendix_structure_table.tex"
+    input_file = "./manuscript_merged.tex"
+    output_table_file = "structure_table.tex"
     create_latex_table(input_file, output_table_file)
